@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <context:component-scan base-package="com.bluemsun.controller" />
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://43.140.247.80:3306/BBS?characterEncoding=utf8&amp;serverTimezone=GMT&amp;useSSL=false&amp;useServerPrepStmts=true&amp;rewriteBatchedStatements=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value="Zxy779299abc."/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:UserMapper.xml"/>
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="UserMapper" class="com.bluemsun.dao.impl.UserMapperImpl">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+
+    <bean id="UserService" class="com.bluemsun.service.impl.UserServiceImpl"/>
+
+    <bean id="User" class="com.bluemsun.entity.User">
+        <property name="banStatus" value="0"/>
+        <property name="masterStatus" value="0"/>
+    </bean>
+
+    <bean id="myPostsPage" class="com.bluemsun.entity.Page"/>
+
+</beans>

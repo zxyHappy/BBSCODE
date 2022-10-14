@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.dao.mapper.UserMapper">
+
+
+
+    <select id="getUserById" resultType="com.bluemsun.entity.User" parameterType="int">
+        select * from bbs_user where id = #{id}
+    </select>
+
+    <insert id="addUser" parameterType="com.bluemsun.entity.User">
+        insert into bbs_user(nick_name,user_name,password,telephone) values (#{nickName},#{userName},#{password},#{telephone})
+    </insert>
+
+    <select id="getUserByName" parameterType="java.lang.String" resultType="com.bluemsun.entity.User">
+        select * from bbs_user where user_name = #{userName}
+    </select>
+
+    <select id="getUserByTelephone" parameterType="java.lang.String" resultType="com.bluemsun.entity.User">
+        select * from bbs_user where telephone = #{telephone}
+    </select>
+
+    <update id="addPhoto" parameterType="Map">
+        update bbs_user set id_photo = #{idPhoto} where id = #{id}
+    </update>
+
+    <select id="getPostsNumber" parameterType="int" resultType="int">
+        select count(*) from bbs_posts where user_id = #{id}
+    </select>
+
+    <select id="getPostsByUser" resultType="com.bluemsun.entity.Posts">
+        select * from bbs_posts where user_id = #{id} order by id desc limit #{startIndex},4
+    </select>
+
+    <update id="updateTelephone">
+        update bbs_user set telephone = #{telephone} where id = #{id}
+    </update>
+
+    <update id="updatePassword">
+        update bbs_user set password = #{password} where id = #{id}
+    </update>
+
+</mapper>

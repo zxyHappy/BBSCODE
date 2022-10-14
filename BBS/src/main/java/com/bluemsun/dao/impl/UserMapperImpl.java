@@ -1,0 +1,68 @@
+package com.bluemsun.dao.impl;
+
+import com.bluemsun.dao.mapper.UserMapper;
+import com.bluemsun.entity.Posts;
+import com.bluemsun.entity.User;
+import org.mybatis.spring.SqlSessionTemplate;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class UserMapperImpl implements UserMapper {
+
+    private SqlSessionTemplate sqlSession;
+
+
+    public void setSqlSession(SqlSessionTemplate sqlSession) {
+        this.sqlSession = sqlSession;
+    }
+
+    @Override
+    public User getUserById(int id) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        return userMapper.getUserById(id);
+    }
+
+    @Override
+    public int addUser(User user) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        int i = userMapper.addUser(user);
+        if(i != 0) return 1;
+        return 0;
+    }
+
+    @Override
+    public User getUserByName(String userName) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        User user = userMapper.getUserByName(userName);
+        return user;
+    }
+
+    @Override
+    public User getUserByTelephone(String telephone) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        User user = userMapper.getUserByTelephone(telephone);
+        return user;
+    }
+
+    @Override
+    public int addPhoto(Map<String,Object> map) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        int i = userMapper.addPhoto(map);
+        if(i!=0) return 1;
+        return 0;
+    }
+
+    @Override
+    public int getPostsNumber(int id) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        return userMapper.getPostsNumber(id);
+    }
+
+
+    public List<Posts> getPostsByUser(int id, int startIndex) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        return userMapper.getPostsByUser(id,startIndex);
+    }
+}
