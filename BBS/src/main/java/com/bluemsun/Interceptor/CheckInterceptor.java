@@ -25,8 +25,7 @@ public class CheckInterceptor implements HandlerInterceptor {
             return true;
         }
         if (token == null || token.equals("")) {
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().println("无操作权限");
+            response.getWriter().println("can not");
             return false;
         }
         DecodedJWT decodedJWT = JWTUtil.decode(token);
