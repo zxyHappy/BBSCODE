@@ -9,26 +9,28 @@ import java.util.List;
 public class FileMapperImpl implements FileMapper {
 
     private SqlSessionTemplate sqlSession;
+    private FileMapper fileMapper;
 
     public void setSqlSession(SqlSessionTemplate sqlSession) {
         this.sqlSession = sqlSession;
+        fileMapper = sqlSession.getMapper(FileMapper.class);
     }
 
     @Override
     public int addFile(File file) {
-        FileMapper fileMapper = sqlSession.getMapper(FileMapper.class);
+//        FileMapper fileMapper = sqlSession.getMapper(FileMapper.class);
         return fileMapper.addFile(file);
     }
 
     @Override
     public List<File> getFile(int id) {
-        FileMapper fileMapper = sqlSession.getMapper(FileMapper.class);
+//        FileMapper fileMapper = sqlSession.getMapper(FileMapper.class);
         return fileMapper.getFile(id);
     }
 
     @Override
     public File getFileById(int id) {
-        FileMapper fileMapper = sqlSession.getMapper(FileMapper.class);
+//        FileMapper fileMapper = sqlSession.getMapper(FileMapper.class);
         return fileMapper.getFileById(id);
     }
 }

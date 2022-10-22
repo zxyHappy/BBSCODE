@@ -27,6 +27,12 @@ public class UserServiceImpl implements UserService {
             String s = String.valueOf(Math.round(Math.random()*9));
             uid = uid.concat(s);
         }
+        while(userMapper.getUserByName(uid) != null){
+            for(int i = 0; i <= 9; i++){
+                String s = String.valueOf(Math.round(Math.random()*9));
+                uid = uid.concat(s);
+            }
+        }
         user.setUserName(uid);
         int i = userMapper.addUser(user);
         if(i == 1) return "注册成功";
@@ -35,6 +41,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String loginUser(String idNumber, String password) {
+        if(idNumber==null || "".equals(idNumber) || password == null || "".equals(password)){
+            return "输入不能为空";
+        }
         String msg = "登录失败，请检查输入是否有误";
         User user1 = userMapper.getUserByName(idNumber);
         User user2 = userMapper.getUserByTelephone(idNumber);

@@ -44,7 +44,7 @@ public class UserController {
     private FollowService followService = (FollowService) context.getBean("FollowService");
 
 
-    @RequestMapping(value = "/add")
+    @PostMapping (value = "/add")
     public String addUser(@RequestBody User user) throws JsonProcessingException {
         String msg = userService.addUser(user);
         int status;
@@ -56,11 +56,11 @@ public class UserController {
         return JsonUtil.toJson(map);
     }
 
-    @RequestMapping(value = "/login")
+    @PostMapping(value = "/login")
     public String login(@RequestBody Map<String,String> m) throws IOException {
         String msg = userService.loginUser(m.get("idNumber"),m.get("password"));
         int status = 1;
-        if(msg.equals("登录失败，请检查输入是否有误") || msg.equals("账号已被封禁，无法登录")) status = 0;
+        if(msg.equals("登录失败，请检查输入是否有误") || msg.equals("账号已被封禁，无法登录") || msg.equals("输入不能为空")) status = 0;
         map.clear();
         map.put("status",status);
         map.put("msg",msg);
@@ -97,14 +97,14 @@ public class UserController {
         return JsonUtil.toJson(map);
     }
 
-    @RequestMapping(value = "/success/posts/{index}")
+    @GetMapping(value = "/success/posts/{index}")
     public String getPostsByUser(@PathVariable int index,HttpServletRequest request) throws JsonProcessingException {
         int id = (int) request.getAttribute("id");
         Page<Posts> postsPage = userService.getPostsByUser(id,index);
         return JsonUtil.toJson(postsPage);
     }
 
-    @RequestMapping(value = "/password/update")
+    @PostMapping(value = "/password/update")
     public String updatePassword(HttpServletRequest request,@RequestBody Map<String,String> m) throws JsonProcessingException {
         String password = m.get("password");
         int id = (int) request.getAttribute("id");
@@ -118,7 +118,7 @@ public class UserController {
         return JsonUtil.toJson(map);
     }
 
-    @RequestMapping(value = "/nickName/update")
+    @PostMapping(value = "/nickName/update")
     public String updateNickName(HttpServletRequest request,@RequestBody Map<String,String> m) throws JsonProcessingException {
         String nickName = m.get("nickName");
         int id = (int) request.getAttribute("id");

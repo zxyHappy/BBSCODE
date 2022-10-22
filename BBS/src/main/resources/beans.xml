@@ -103,16 +103,6 @@
 
     <bean id="Follow" class="com.bluemsun.entity.Follow"/>
 
-<!--    <tx:advice id="advice" transaction-manager="transactionManager">-->
-<!--        <tx:attributes>-->
-<!--            <tx:method name="*" propagation="REQUIRED"/>-->
-<!--        </tx:attributes>-->
-<!--    </tx:advice>-->
-
-<!--    <aop:config>-->
-<!--        <aop:pointcut id="pointCut" expression="execution(* com.bluemsun.service.*.*(..))"/>-->
-<!--        <aop:advisor advice-ref="advice" pointcut-ref="pointCut"/>-->
-<!--    </aop:config>-->
 
 
 </beans>

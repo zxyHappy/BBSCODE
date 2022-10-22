@@ -9,11 +9,11 @@
     </insert>
 
     <select id="getOneComment" resultType="com.bluemsun.entity.OneComment">
-        select * from bbs_commentone where posts_id = #{postsId} order by id desc limit #{startIndex},5
+        select * from bbs_commentone where posts_id = #{postsId} order by id limit #{startIndex},5
     </select>
 
     <select id="getTwoComment" resultType="com.bluemsun.entity.TwoComment">
-        select * from bbs_commenttwo where one_id = #{oneId} order by id desc limit #{startIndex},5
+        select * from bbs_commenttwo where one_id = #{oneId} order by id limit #{startIndex},5
     </select>
 
     <insert id="addTwoComment" parameterType="com.bluemsun.entity.TwoComment">
