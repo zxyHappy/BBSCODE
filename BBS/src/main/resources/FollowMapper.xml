@@ -12,4 +12,16 @@
         select * from bbs_followp where user_followed = #{userId}
     </select>
 
+    <insert id="addFollowPeople" parameterType="com.bluemsun.entity.Follow">
+        insert into bbs_followp (user_id,user_followed) values (#{userId},#{userFollowed})
+    </insert>
+
+    <select id="checkFollowPeople" parameterType="com.bluemsun.entity.Follow" resultType="com.bluemsun.entity.Follow">
+        select * from bbs_followp where user_id = #{userId} and user_followed = #{userFollowed}
+    </select>
+
+    <delete id="deleteFollowPeople" parameterType="com.bluemsun.entity.Follow">
+        delete from bbs_followp where user_id = #{userId} and user_followed = #{userFollowed}
+    </delete>
+
 </mapper>

@@ -16,7 +16,7 @@ public interface PostsService {
      * @param id 帖子id
      * @return
      */
-    Map<String,Object> showPosts(int id);
+    Map<String,Object> showPosts(int id,int userId);
 
 
     String updateZan(int postsId,int userId);

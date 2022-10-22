@@ -26,5 +26,22 @@ public class FollowMapperImpl implements FollowMapper {
         return followMapper.getFans(userId);
     }
 
+    @Override
+    public int addFollowPeople(Follow follow) {
+        int i = followMapper.addFollowPeople(follow);
+        if(i != 0) return 1;
+        return 0;
+    }
 
+    @Override
+    public Follow checkFollowPeople(Follow follow) {
+        return followMapper.checkFollowPeople(follow);
+    }
+
+    @Override
+    public int deleteFollowPeople(Follow follow) {
+        int i = followMapper.deleteFollowPeople(follow);
+        if(i != 0) return 1;
+        return 0;
+    }
 }

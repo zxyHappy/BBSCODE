@@ -16,4 +16,12 @@ public interface FollowService {
      */
      List<Follow> getPeople(int userId,String type);
 
+    /**
+     * 更新关注，已关注就取关，未关注就关注
+     * @param userId 关注人
+     * @param userFollowed 被关注人
+     * @return
+     */
+    String updateFollowPeople(int userId,int userFollowed);
+
 }

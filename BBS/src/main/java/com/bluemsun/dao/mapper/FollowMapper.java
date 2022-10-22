@@ -21,5 +21,9 @@ public interface FollowMapper {
      */
     List<Follow> getFans(@Param("userId") int userId);
 
+    int addFollowPeople(Follow follow);
 
+    Follow checkFollowPeople(Follow follow);
+
+    int deleteFollowPeople(Follow follow);
 }

@@ -42,11 +42,11 @@ public class JWTUtil {
         calendar.add(Calendar.DATE, 7);
         JWTCreator.Builder builder = JWT.create();
         builder.withClaim("id",user.getId());
-        builder.withClaim("userName",user.getUserName());
-        builder.withClaim("telephone",user.getTelephone());
-        builder.withClaim("nickName",user.getNickName());
-        builder.withClaim("masterStatus",user.getMasterStatus());
-        builder.withClaim("idPhoto",user.getIdPhoto());
+//        builder.withClaim("userName",user.getUserName());
+//        builder.withClaim("telephone",user.getTelephone());
+//        builder.withClaim("nickName",user.getNickName());
+//        builder.withClaim("masterStatus",user.getMasterStatus());
+//        builder.withClaim("idPhoto",user.getIdPhoto());
         String token = builder.withExpiresAt(calendar.getTime()).sign(Algorithm.HMAC256(SECRET));
         return token;
     }

@@ -28,10 +28,11 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
-    public Map<String, Object> showPosts(int id) {
+    public Map<String, Object> showPosts(int id,int userId) {
         Posts posts = postsMapper.showPosts(id);
         posts.setLikeNumber(zanMapper.zanNumberPosts(id));
-        postsMapper.addScan(id);
+//        postsMapper.addScan(id);
+        if(userId != posts.getUserId()) postsMapper.addScan(id);
         posts.setReplyNumber(postsMapper.getOneCommentNumber(id));
         if(zanMapper.confirmZanByPosts(posts.getUserId(),id) != null){
             posts.setZanStatus(1);

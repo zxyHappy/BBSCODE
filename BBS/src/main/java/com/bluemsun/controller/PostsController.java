@@ -39,7 +39,7 @@ public class PostsController {
     @GetMapping (value = "/show/{id}")
     public String showPosts(@PathVariable int id,HttpServletRequest request) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
-        Map<String,Object> map = postsService.showPosts(id);
+        Map<String,Object> map = postsService.showPosts(id,userId);
         map.put("nickName",userService.getUserById(userId).getNickName());
         map.put("idPhoto",userService.getUserById(userId).getIdPhoto());
         return JsonUtil.toJson(map);

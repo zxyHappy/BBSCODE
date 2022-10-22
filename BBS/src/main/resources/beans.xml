@@ -101,6 +101,8 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <bean id="Follow" class="com.bluemsun.entity.Follow"/>
+
 <!--    <tx:advice id="advice" transaction-manager="transactionManager">-->
 <!--        <tx:attributes>-->
 <!--            <tx:method name="*" propagation="REQUIRED"/>-->

@@ -151,4 +151,6 @@ public class UserController {
         int userId = (int) request.getAttribute("id");
         return JsonUtil.toJson(followService.getPeople(userId,type));
     }
+
+    @RequestMapping(value = "/update/")
 }

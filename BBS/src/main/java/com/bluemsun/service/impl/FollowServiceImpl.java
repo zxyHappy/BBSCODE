@@ -5,6 +5,8 @@ import com.bluemsun.dao.mapper.UserMapper;
 import com.bluemsun.entity.Follow;
 import com.bluemsun.service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Autowired FollowMapper followMapper;
     @Autowired UserMapper userMapper;
+    private ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
     @Override
     public List<Follow> getPeople(int userId,String type) {
@@ -32,4 +35,17 @@ public class FollowServiceImpl implements FollowService {
     }
 
 
+    @Override
+    public String updateFollowPeople(int userId, int userFollowed) {
+        Follow follow = (Follow) context.getBean("Follow");
+        if(followMapper.checkFollowPeople(follow) == null){
+            int i = followMapper.addFollowPeople(follow);
+            if(i != 0) return "关注成功";
+            return "关注失败";
+        }else {
+            int i = followMapper.deleteFollowPeople(follow);
+            if(i != 0) return "已取消关注";
+            return "取消失败";
+        }
+    }
 }
