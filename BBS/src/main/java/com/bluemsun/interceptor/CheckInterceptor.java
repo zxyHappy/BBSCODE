@@ -1,4 +1,4 @@
-package com.bluemsun.Interceptor;
+package com.bluemsun.interceptor;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bluemsun.util.JWTUtil;

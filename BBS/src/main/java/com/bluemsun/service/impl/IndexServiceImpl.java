@@ -5,8 +5,6 @@ import com.bluemsun.entity.Block;
 import com.bluemsun.entity.Posts;
 import com.bluemsun.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +14,8 @@ public class IndexServiceImpl implements IndexService {
 
     @Autowired BlockMapper blockMapper;
     @Autowired PostsMapper postsMapper;
-    @Autowired ZanMapper zanMapper;
+    @Autowired
+    LikeMapper likeMapper;
     @Autowired CommentMapper commentMapper;
     @Autowired UserMapper userMapper;
 

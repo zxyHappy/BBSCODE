@@ -5,23 +5,23 @@
 <mapper namespace="com.bluemsun.dao.mapper.FollowMapper">
     
     <select id="getFollower" resultType="com.bluemsun.entity.Follow">
-        select * from bbs_followp where user_id = #{userId}
+        select * from bbs_follow where user_id = #{userId} and status = 1
     </select>
 
     <select id="getFans" resultType="com.bluemsun.entity.Follow">
-        select * from bbs_followp where user_followed = #{userId}
+        select * from bbs_follow where user_followed = #{userId} and status = 1
     </select>
 
     <insert id="addFollowPeople" parameterType="com.bluemsun.entity.Follow">
-        insert into bbs_followp (user_id,user_followed) values (#{userId},#{userFollowed})
+        insert into bbs_follow (user_id,user_followed,status) values (#{userId},#{userFollowed},1)
     </insert>
 
     <select id="checkFollowPeople" parameterType="com.bluemsun.entity.Follow" resultType="com.bluemsun.entity.Follow">
-        select * from bbs_followp where user_id = #{userId} and user_followed = #{userFollowed}
+        select * from bbs_follow where user_id = #{userId} and user_followed = #{userFollowed} and status = 1
     </select>
 
     <delete id="deleteFollowPeople" parameterType="com.bluemsun.entity.Follow">
-        delete from bbs_followp where user_id = #{userId} and user_followed = #{userFollowed}
+        delete from bbs_follow where user_id = #{userId} and user_followed = #{userFollowed} and status = 1
     </delete>
 
 </mapper>

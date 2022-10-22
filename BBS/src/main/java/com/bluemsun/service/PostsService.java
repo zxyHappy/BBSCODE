@@ -19,7 +19,7 @@ public interface PostsService {
     Map<String,Object> showPosts(int id,int userId);
 
 
-    String updateZan(int postsId,int userId);
+    String updateLike(int postsId,int userId);
 
     /**
      * 更新帖子信息

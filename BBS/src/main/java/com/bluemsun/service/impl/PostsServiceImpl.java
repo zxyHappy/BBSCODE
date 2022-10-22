@@ -4,8 +4,6 @@ import com.bluemsun.dao.mapper.*;
 import com.bluemsun.entity.*;
 import com.bluemsun.service.PostsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +12,8 @@ import java.util.Map;
 public class PostsServiceImpl implements PostsService {
 
     @Autowired PostsMapper postsMapper;
-    @Autowired ZanMapper zanMapper;
+    @Autowired
+    LikeMapper likeMapper;
     @Autowired UserMapper userMapper;
     @Autowired BlockMapper blockMapper;
     @Autowired Page<OneComment> commentPage;
@@ -30,11 +29,11 @@ public class PostsServiceImpl implements PostsService {
     @Override
     public Map<String, Object> showPosts(int id,int userId) {
         Posts posts = postsMapper.showPosts(id);
-        posts.setLikeNumber(zanMapper.zanNumberPosts(id));
+        posts.setLikeNumber(likeMapper.likeNumberPosts(id));
 //        postsMapper.addScan(id);
         if(userId != posts.getUserId()) postsMapper.addScan(id);
         posts.setReplyNumber(postsMapper.getOneCommentNumber(id));
-        if(zanMapper.confirmZanByPosts(posts.getUserId(),id) != null){
+        if(likeMapper.confirmLikeByPosts(posts.getUserId(),id) != null){
             posts.setZanStatus(1);
         }else posts.setZanStatus(0);
         posts.setUser(userMapper.getUserById(posts.getUserId()));
@@ -60,14 +59,14 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
-    public String updateZan(int postsId, int userId) {
-        Zan zan = zanMapper.confirmZanByPosts(userId,postsId);
-        if(zan==null){
-            zanMapper.zanPosts(userId,postsId);
+    public String updateLike(int postsId, int userId) {
+        Like like = likeMapper.confirmLikeByPosts(userId,postsId);
+        if(like ==null){
+            likeMapper.likePosts(userId,postsId);
             postsMapper.addLike(postsId);
             return "点赞成功";
         }else {
-            zanMapper.deleteZanPosts(userId,postsId);
+            likeMapper.deleteLikePosts(userId,postsId);
             postsMapper.deleteLike(postsId);
             return "取消成功";
         }

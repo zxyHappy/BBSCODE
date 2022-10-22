@@ -1,6 +1,6 @@
 package com.bluemsun.entity;
 
-public class Zan {
+public class Like {
 
     private int id;
     private int userId;

@@ -22,7 +22,7 @@ import java.util.Map;
 @Scope("session")
 public class BlockController {
 
-    ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+    private ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
     private BlockService blockService =(BlockService) context.getBean("BlockService");
     private UserService userService = (UserService) context.getBean("UserService");
 

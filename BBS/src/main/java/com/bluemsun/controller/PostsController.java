@@ -48,7 +48,7 @@ public class PostsController {
     @RequestMapping(value = "/zan/update/{postsId}")
     public String updateZan(HttpServletRequest request,@PathVariable int postsId) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
-        map.put("msg",postsService.updateZan(postsId,userId));
+        map.put("msg",postsService.updateLike(postsId,userId));
         return JsonUtil.toJson(map);
     }
 

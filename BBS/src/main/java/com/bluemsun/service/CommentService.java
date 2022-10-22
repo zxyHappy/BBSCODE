@@ -49,7 +49,7 @@ public interface CommentService {
      * @param userId
      * @return
      */
-    String updateZanOne(int oneId,int userId);
+    String updateLikeOne(int oneId,int userId);
 
     /**
      * 更新二级评论点赞状态
@@ -57,16 +57,16 @@ public interface CommentService {
      * @param userId
      * @return
      */
-    String updateZanTwo(int twoId,int userId);
+    String updateLikeTwo(int twoId,int userId);
 
     /**
      * 设置是否已被点赞
      * @param userId
      * @param commentPage
      */
-    void setZanStatusOne(int userId,Page<OneComment> commentPage);
+    void setLikeStatusOne(int userId,Page<OneComment> commentPage);
 
-    void setZanStatusTwo(int userId,Page<TwoComment> commentPage);
+    void setLikeStatusTwo(int userId,Page<TwoComment> commentPage);
 
     /**
      * 删除一级评论

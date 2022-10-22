@@ -39,15 +39,15 @@
 <!--    </mvc:cors>-->
 
     <mvc:interceptors>
-<!--        <bean class="com.bluemsun.Interceptor.CorsInterceptor"/>-->
-<!--        <bean class="com.bluemsun.Interceptor.CheckInterceptor"/>-->
+<!--        <bean class="com.bluemsun.interceptor.CorsInterceptor"/>-->
+<!--        <bean class="com.bluemsun.interceptor.CheckInterceptor"/>-->
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="com.bluemsun.Interceptor.CorsInterceptor"/>
+            <bean class="com.bluemsun.interceptor.CorsInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="com.bluemsun.Interceptor.CheckInterceptor"/>
+            <bean class="com.bluemsun.interceptor.CheckInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 </beans>

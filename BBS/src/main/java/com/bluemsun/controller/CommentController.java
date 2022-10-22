@@ -2,7 +2,6 @@ package com.bluemsun.controller;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.bluemsun.dao.mapper.ZanMapper;
 import com.bluemsun.entity.OneComment;
 import com.bluemsun.entity.Page;
 import com.bluemsun.entity.TwoComment;
@@ -15,7 +14,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +58,7 @@ public class CommentController {
             String token =(String) request.getAttribute("token");
             DecodedJWT decodedJWT = JWTUtil.decode(token);
             Claim userId = decodedJWT.getClaim("id");
-            commentService.setZanStatusOne(userId.asInt(),commentPage);
+            commentService.setLikeStatusOne(userId.asInt(),commentPage);
         }
         return JsonUtil.toJson(commentPage);
     }
@@ -73,7 +71,7 @@ public class CommentController {
             String token =(String) request.getAttribute("token");
             DecodedJWT decodedJWT = JWTUtil.decode(token);
             Claim userId = decodedJWT.getClaim("id");
-            commentService.setZanStatusTwo(userId.asInt(),commentPage);
+            commentService.setLikeStatusTwo(userId.asInt(),commentPage);
         }
         return JsonUtil.toJson(commentPage);
     }
@@ -82,7 +80,7 @@ public class CommentController {
     public String updateOneZan(HttpServletRequest request,@PathVariable int oneId) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
         map.clear();
-        map.put("msg",commentService.updateZanOne(oneId,userId));
+        map.put("msg",commentService.updateLikeOne(oneId,userId));
         return JsonUtil.toJson(map);
     }
 
@@ -90,7 +88,7 @@ public class CommentController {
     public String updateTwoZan(HttpServletRequest request,@PathVariable int twoId) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
         map.clear();
-        map.put("msg",commentService.updateZanTwo(twoId,userId));
+        map.put("msg",commentService.updateLikeTwo(twoId,userId));
         return JsonUtil.toJson(map);
     }
 

@@ -1,4 +1,4 @@
-package com.bluemsun.Interceptor;
+package com.bluemsun.interceptor;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.HandlerInterceptor;

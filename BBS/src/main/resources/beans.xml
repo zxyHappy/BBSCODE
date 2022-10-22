@@ -32,7 +32,7 @@
                 <value>classpath:BlockMapper.xml</value>
                 <value>classpath:FileMapper.xml</value>
                 <value>classpath:CommentMapper.xml</value>
-                <value>classpath:ZanMapper.xml</value>
+                <value>classpath:LikeMapper.xml</value>
                 <value>classpath:FollowMapper.xml</value>
             </array>
         </property>
@@ -73,7 +73,7 @@
         <property name="sqlSession" ref="sqlSession"/>
     </bean>
 
-    <bean id="ZanMapper" class="com.bluemsun.dao.impl.ZanMapperImpl">
+    <bean id="LikeMapper" class="com.bluemsun.dao.impl.LikeMapperImpl">
         <property name="sqlSession" ref="sqlSession"/>
     </bean>
 

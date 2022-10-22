@@ -1,20 +1,16 @@
 package com.bluemsun.service.impl;
 
 import com.bluemsun.dao.mapper.CommentMapper;
+import com.bluemsun.dao.mapper.LikeMapper;
 import com.bluemsun.dao.mapper.PostsMapper;
 import com.bluemsun.dao.mapper.UserMapper;
-import com.bluemsun.dao.mapper.ZanMapper;
 import com.bluemsun.entity.OneComment;
 import com.bluemsun.entity.Page;
 import com.bluemsun.entity.TwoComment;
-import com.bluemsun.entity.Zan;
+import com.bluemsun.entity.Like;
 import com.bluemsun.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 public class CommentServiceImpl implements CommentService {
@@ -24,7 +20,7 @@ public class CommentServiceImpl implements CommentService {
     @Autowired CommentMapper commentMapper;
     @Autowired PostsMapper postsMapper;
     @Autowired UserMapper userMapper;
-    @Autowired ZanMapper zanMapper;
+    @Autowired LikeMapper likeMapper;
     @Autowired Page<OneComment> oneCommentPage;
     @Autowired Page<TwoComment> twoCommentPage;
 
@@ -45,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
         List<OneComment> list = commentMapper.getOneComment(postsId,oneCommentPage.getStartIndex());
         for(OneComment comment:list){
             comment.setUser(userMapper.getUserById(comment.getUserId()));
-            comment.setZanNumber(zanMapper.zanNumberOne(comment.getId()));
+            comment.setZanNumber(likeMapper.likeNumberOne(comment.getId()));
         }
         oneCommentPage.setList(list);
         return oneCommentPage;
@@ -59,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
         for(TwoComment comment:list){
             comment.setUserSend(userMapper.getUserById(comment.getUseridSend()));
             comment.setUserReply(userMapper.getUserById(comment.getUseridReply()));
-            comment.setZanNumber(zanMapper.zanNumberTwo(comment.getId()));
+            comment.setZanNumber(likeMapper.likeNumberTwo(comment.getId()));
         }
         twoCommentPage.setList(list);
         return twoCommentPage;
@@ -74,41 +70,41 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public String updateZanOne(int oneId, int userId) {
-        Zan zan = zanMapper.confirmZanByOne(userId,oneId);
-        if(zan != null){
-            zanMapper.deleteZanOne(userId,oneId);
+    public String updateLikeOne(int oneId, int userId) {
+        Like like = likeMapper.confirmLikeByOne(userId,oneId);
+        if(like != null){
+            likeMapper.deleteLikeOne(userId,oneId);
             return "取消成功";
         }else {
-            zanMapper.zanOne(userId,oneId);
+            likeMapper.likeOne(userId,oneId);
             return "点赞成功";
         }
     }
 
     @Override
-    public String updateZanTwo(int twoId, int userId) {
-        Zan zan = zanMapper.confirmZanByTwo(userId,twoId);
-        if(zan != null){
-            zanMapper.deleteZanTwo(userId,twoId);
+    public String updateLikeTwo(int twoId, int userId) {
+        Like like = likeMapper.confirmLikeByTwo(userId,twoId);
+        if(like != null){
+            likeMapper.deleteLikeTwo(userId,twoId);
             return "取消成功";
         }else {
-            zanMapper.zanTwo(userId,twoId);
+            likeMapper.likeTwo(userId,twoId);
             return "点赞成功";
         }
     }
 
     @Override
-    public void setZanStatusOne(int userId, Page<OneComment> commentPage) {
+    public void setLikeStatusOne(int userId, Page<OneComment> commentPage) {
         for(OneComment comment:commentPage.getList()){
-            if(zanMapper.confirmZanByOne(userId,comment.getId()) == null) comment.setZanStatus(0);
+            if(likeMapper.confirmLikeByOne(userId,comment.getId()) == null) comment.setZanStatus(0);
             else comment.setZanStatus(1);
         }
     }
 
     @Override
-    public void setZanStatusTwo(int userId, Page<TwoComment> commentPage) {
+    public void setLikeStatusTwo(int userId, Page<TwoComment> commentPage) {
         for(TwoComment comment:commentPage.getList()){
-            if(zanMapper.confirmZanByTwo(userId,comment.getId())==null) comment.setZanStatus(0);
+            if(likeMapper.confirmLikeByTwo(userId,comment.getId())==null) comment.setZanStatus(0);
             else comment.setZanStatus(1);
         }
     }

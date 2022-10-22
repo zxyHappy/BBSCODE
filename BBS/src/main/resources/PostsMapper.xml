@@ -37,7 +37,7 @@
     </select>
 
     <update id="addLike">
-        update bbs_posts set like_number = like_number+1 where if = #{id}
+        update bbs_posts set like_number = like_number+1 where id = #{id}
     </update>
 
     <update id="deleteLike">
