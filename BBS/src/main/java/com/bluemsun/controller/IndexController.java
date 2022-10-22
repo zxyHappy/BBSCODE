@@ -1,13 +1,11 @@
 package com.bluemsun.controller;
 
 
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bluemsun.entity.Block;
 import com.bluemsun.service.BlockService;
 import com.bluemsun.service.IndexService;
-import com.bluemsun.util.JWTUtil;
+import com.bluemsun.service.UserService;
 import com.bluemsun.util.JsonUtil;
-import com.bluemsun.util.UserCheckUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -34,25 +31,25 @@ public class IndexController {
     private IndexService indexService = (IndexService) context.getBean("IndexService");
     private BlockService blockService = (BlockService) context.getBean("BlockService");
     private Map<String,Object> map = new HashMap<>();
+    private UserService userService = (UserService)context.getBean("UserService");
 
     @RequestMapping(value = "/main")
     public String showMain(HttpServletRequest request) throws JsonProcessingException {
-        UserCheckUtil.checkUserLogin(request);
+        int userId = (int) request.getAttribute("id");
         Map<String,Object> map = indexService.getIndex();
-        map.put("msg",UserCheckUtil.getMsg());
-        map.put("nickName",UserCheckUtil.getNickName());
-        map.put("idPhoto",UserCheckUtil.getIdPhoto());
+        map.put("nickName",userService.getUserById(userId).getNickName());
+        map.put("idPhoto",userService.getUserById(userId).getIdPhoto());
         return JsonUtil.toJson(map);
     }
 
     @RequestMapping(value = "/block")
     public String showBlock(HttpServletRequest request) throws JsonProcessingException {
-        UserCheckUtil.checkUserLogin(request);
+        int userId = (int) request.getAttribute("id");
         List<Block> list = blockService.showBlock();
         map.clear();
         map.put("blockList",list);
-        map.put("nickName",UserCheckUtil.getNickName());
-        map.put("idPhoto",UserCheckUtil.getIdPhoto());
+        map.put("nickName",userService.getUserById(userId).getNickName());
+        map.put("idPhoto",userService.getUserById(userId).getIdPhoto());
         return JsonUtil.toJson(map);
     }
 }

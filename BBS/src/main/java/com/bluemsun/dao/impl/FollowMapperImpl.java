@@ -25,4 +25,6 @@ public class FollowMapperImpl implements FollowMapper {
     public List<Follow> getFans(int userId) {
         return followMapper.getFans(userId);
     }
+
+
 }

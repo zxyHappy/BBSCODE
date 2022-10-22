@@ -95,20 +95,22 @@
     <bean id="BlockService" class="com.bluemsun.service.impl.BlockServiceImpl"/>
 
 
+    <bean id="FollowService" class="com.bluemsun.service.impl.FollowServiceImpl"/>
+
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <tx:advice id="advice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="*" propagation="REQUIRED"/>
-        </tx:attributes>
-    </tx:advice>
+<!--    <tx:advice id="advice" transaction-manager="transactionManager">-->
+<!--        <tx:attributes>-->
+<!--            <tx:method name="*" propagation="REQUIRED"/>-->
+<!--        </tx:attributes>-->
+<!--    </tx:advice>-->
 
-    <aop:config>
-        <aop:pointcut id="pointCut" expression="execution(* com.bluemsun.service.*.*(..))"/>
-        <aop:advisor advice-ref="advice" pointcut-ref="pointCut"/>
-    </aop:config>
+<!--    <aop:config>-->
+<!--        <aop:pointcut id="pointCut" expression="execution(* com.bluemsun.service.*.*(..))"/>-->
+<!--        <aop:advisor advice-ref="advice" pointcut-ref="pointCut"/>-->
+<!--    </aop:config>-->
 
 
 </beans>

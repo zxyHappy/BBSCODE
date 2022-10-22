@@ -1,13 +1,10 @@
 package com.bluemsun.controller;
 
 
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bluemsun.service.BlockService;
-import com.bluemsun.util.JWTUtil;
+import com.bluemsun.service.UserService;
 import com.bluemsun.util.JsonUtil;
-import com.bluemsun.util.UserCheckUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -27,13 +24,14 @@ public class BlockController {
 
     ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
     private BlockService blockService =(BlockService) context.getBean("BlockService");
+    private UserService userService = (UserService) context.getBean("UserService");
 
     @RequestMapping(value = "/show/{id}")
     public String showBlock(@PathVariable int id, HttpServletRequest request) throws JsonProcessingException {
-        UserCheckUtil.checkUserLogin(request);
+        int userId = (int) request.getAttribute("id");
         Map<String,Object> map = blockService.showBlockMessage(id);
-        map.put("idPhoto",UserCheckUtil.getIdPhoto());
-        map.put("nickName",UserCheckUtil.getNickName());
+        map.put("idPhoto",userService.getUserById(userId).getIdPhoto());
+        map.put("nickName",userService.getUserById(userId).getNickName());
         return JsonUtil.toJson(map);
     }
 

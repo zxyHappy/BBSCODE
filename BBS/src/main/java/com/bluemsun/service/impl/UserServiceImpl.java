@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         map.put("idPhoto",idPhoto);
         map.put("id",id);
         if(userMapper.addPhoto(map)==1) {
-            return JWTUtil.getToken(userMapper.getUserById(id));
+            return "添加成功";
         }
         return "添加失败";
     }
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     public String updatePassword(String password, int id) {
         int i = userMapper.updatePassword(password,id);
         if(i != 0) {
-            return JWTUtil.getToken(userMapper.getUserById(id));
+            return "密码修改成功";
         }
         return "密码修改失败";
     }
@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
     public String updateNickName(String nickName, int id) {
         int i = userMapper.updateNickName(nickName,id);
         if(i != 0) {
-            return JWTUtil.getToken(userMapper.getUserById(id));
+            return "昵称修改成功";
         }
         return "昵称修改失败";
     }
@@ -106,8 +106,19 @@ public class UserServiceImpl implements UserService {
     public String updateTelephone(String telephone, int id) {
         int i = userMapper.updateTelephone(telephone,id);
         if(i!=0) {
-            return JWTUtil.getToken(userMapper.getUserById(id));
+            return "电话修改成功";
         }
         return "电话修改失败";
+    }
+
+    @Override
+    public User getUserById(int id) {
+        User user = userMapper.getUserById(id);
+        if(user == null){
+            user = new User();
+            user.setNickName(null);
+            user.setIdPhoto(null);
+        }
+        return user;
     }
 }

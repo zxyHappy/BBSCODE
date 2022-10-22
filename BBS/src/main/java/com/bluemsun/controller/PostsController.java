@@ -1,21 +1,16 @@
 package com.bluemsun.controller;
 
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bluemsun.entity.Posts;
 import com.bluemsun.entity.User;
 import com.bluemsun.service.PostsService;
-import com.bluemsun.util.JWTUtil;
+import com.bluemsun.service.UserService;
 import com.bluemsun.util.JsonUtil;
-import com.bluemsun.util.UserCheckUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +24,7 @@ public class PostsController {
     private ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
     private PostsService postsService =(PostsService) context.getBean("PostsService");
     private Map<String,Object> map = new HashMap<>();
+    private UserService userService = (UserService) context.getBean("UserService");
 
     @RequestMapping(value = "/add")
     public String addPosts(@RequestBody Posts posts, HttpServletRequest request) throws JsonProcessingException {
@@ -42,10 +38,10 @@ public class PostsController {
 
     @GetMapping (value = "/show/{id}")
     public String showPosts(@PathVariable int id,HttpServletRequest request) throws JsonProcessingException {
-        UserCheckUtil.checkUserLogin(request);
+        int userId = (int) request.getAttribute("id");
         Map<String,Object> map = postsService.showPosts(id);
-        map.put("nickName",UserCheckUtil.getNickName());
-        map.put("idPhoto",UserCheckUtil.getIdPhoto());
+        map.put("nickName",userService.getUserById(userId).getNickName());
+        map.put("idPhoto",userService.getUserById(userId).getIdPhoto());
         return JsonUtil.toJson(map);
     }
 

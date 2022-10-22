@@ -60,4 +60,6 @@ public interface UserService {
     String updateNickName(String nickName,int id);
 
     String updateTelephone(String telephone,int id);
+
+    User getUserById(int id);
 }

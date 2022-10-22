@@ -7,6 +7,25 @@ public class Follow {
     private int userFollowed;
     private int blockId;
 
+    private User user;
+
+    private Block block;
+
+    public Block getBlock() {
+        return block;
+    }
+
+    public void setBlock(Block block) {
+        this.block = block;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getId() {
         return id;

@@ -19,9 +19,16 @@ public class CheckInterceptor implements HandlerInterceptor {
         if(uri.contains("/posts/show") || uri.contains("/index") || uri.contains("/comment/show") || uri.contains("/block/show")){
             String msg;
             if(token == null || "".equals(token)) msg = "游客";
-            else msg = "用户";
+            else {
+                msg = "用户";
+                DecodedJWT decodedJWT = JWTUtil.decode(token);
+                int id = decodedJWT.getClaim("id").asInt();
+                request.setAttribute("decodedJWT",decodedJWT);
+                request.setAttribute("id",id);
+            }
             request.setAttribute("msg",msg);
             request.setAttribute("token",token);
+
             return true;
         }
         if (token == null || token.equals("")) {

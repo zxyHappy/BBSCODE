@@ -2,10 +2,12 @@ package com.bluemsun.controller;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.bluemsun.dao.mapper.FollowMapper;
 import com.bluemsun.dao.mapper.UserMapper;
 import com.bluemsun.entity.Page;
 import com.bluemsun.entity.Posts;
 import com.bluemsun.entity.User;
+import com.bluemsun.service.FollowService;
 import com.bluemsun.service.UserService;
 import com.bluemsun.util.JsonUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -39,6 +41,7 @@ public class UserController {
     private ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
     private UserService userService = (UserService) context.getBean("UserService");
     private Map<String,Object> map = new HashMap<>();
+    private FollowService followService = (FollowService) context.getBean("FollowService");
 
 
     @RequestMapping(value = "/add")
@@ -141,5 +144,11 @@ public class UserController {
         map.put("status",status);
         map.put("msg",msg);
         return JsonUtil.toJson(map);
+    }
+
+    @RequestMapping(value = "/show/{type}")
+    public String showPeople(HttpServletRequest request,@PathVariable String type) throws JsonProcessingException {
+        int userId = (int) request.getAttribute("id");
+        return JsonUtil.toJson(followService.getPeople(userId,type));
     }
 }
