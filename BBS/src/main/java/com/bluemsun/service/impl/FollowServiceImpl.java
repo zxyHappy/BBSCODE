@@ -14,7 +14,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Autowired FollowMapper followMapper;
     @Autowired UserMapper userMapper;
-    private ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+
 
     @Override
     public List<Follow> getPeople(int userId,String type) {
@@ -37,7 +37,10 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public String updateFollowPeople(int userId, int userFollowed) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         Follow follow = (Follow) context.getBean("Follow");
+        follow.setUserId(userId);
+        follow.setUserFollowed(userFollowed);
         if(followMapper.checkFollowPeople(follow) == null){
             int i = followMapper.addFollowPeople(follow);
             if(i != 0) return "关注成功";

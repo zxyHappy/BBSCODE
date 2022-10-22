@@ -152,5 +152,12 @@ public class UserController {
         return JsonUtil.toJson(followService.getPeople(userId,type));
     }
 
-    @RequestMapping(value = "/update/")
+    @RequestMapping(value = "/update/follow/people/{userFollowed}")
+    public String updateFollowPeople(HttpServletRequest request,@PathVariable int userFollowed) throws JsonProcessingException {
+        int userId = (int)request.getAttribute("id");
+        String msg = followService.updateFollowPeople(userId,userFollowed);
+        map.clear();
+        map.put("msg",msg);
+        return JsonUtil.toJson(map);
+    }
 }
