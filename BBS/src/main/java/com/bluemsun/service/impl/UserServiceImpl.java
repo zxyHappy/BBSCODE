@@ -23,13 +23,13 @@ public class UserServiceImpl implements UserService {
     public String addUser(User user) {
         if(userMapper.getUserByTelephone(user.getTelephone())!=null) return "注册失败，该账号已存在";
         String uid = "";
-        for(int i = 0; i <= 9; i++){
-            String s = String.valueOf(Math.round(Math.random()*9));
+        for(int i = 0; i <= 5; i++){
+            String s = String.valueOf(Math.round(Math.random()*5));
             uid = uid.concat(s);
         }
         while(userMapper.getUserByName(uid) != null){
-            for(int i = 0; i <= 9; i++){
-                String s = String.valueOf(Math.round(Math.random()*9));
+            for(int i = 0; i <= 5; i++){
+                String s = String.valueOf(Math.round(Math.random()*5));
                 uid = uid.concat(s);
             }
         }
