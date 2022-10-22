@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.dao.mapper.CommentMapper">
+
+    <insert id="addOneComment" parameterType="com.bluemsun.entity.OneComment">
+        insert into bbs_commentone (user_id,posts_id,date,body) values (#{userId},#{postsId},now(),#{body})
+    </insert>
+
+    <select id="getOneComment" resultType="com.bluemsun.entity.OneComment">
+        select * from bbs_commentone where posts_id = #{postsId} order by id desc limit #{startIndex},5
+    </select>
+
+    <select id="getTwoComment" resultType="com.bluemsun.entity.TwoComment">
+        select * from bbs_commenttwo where one_id = #{oneId} order by id desc limit #{startIndex},5
+    </select>
+
+    <insert id="addTwoComment" parameterType="com.bluemsun.entity.TwoComment">
+        insert into bbs_commenttwo (one_id,date,userid_send,userid_reply,body) values (#{oneId},now(),#{useridSend},#{useridReply},#{body})
+    </insert>
+
+    <select id="getOneCommentNumber" resultType="int">
+        select count(*) from bbs_commentone where posts_id = #{postsId}
+    </select>
+
+    <select id="getTwoCommentNumber" resultType="int">
+        select count(*) from bbs_commenttwo where one_id = #{oneId}
+    </select>
+
+    <delete id="deleteOneComment">
+        delete from bbs_commentone where id = #{id}
+    </delete>
+
+    <delete id="deleteTwoComment">
+        delete from bbs_commenttwo where id = #{id}
+    </delete>
+
+    <select id="getOneCommentById" resultType="com.bluemsun.entity.OneComment">
+        select * from bbs_commentone where id = #{id}
+    </select>
+
+    <select id="getTwoCommentById" resultType="com.bluemsun.entity.TwoComment">
+        select * from bbs_commenttwo where id = #{id}
+    </select>
+
+</mapper>

@@ -19,7 +19,17 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <property name="mapperLocations" value="classpath:UserMapper.xml"/>
+        <property name="mapperLocations" >
+            <array>
+                <value>classpath:UserMapper.xml</value>
+                <value>classpath:PostsMapper.xml</value>
+                <value>classpath:BlockMapper.xml</value>
+                <value>classpath:FileMapper.xml</value>
+                <value>classpath:CommentMapper.xml</value>
+                <value>classpath:ZanMapper.xml</value>
+                <value>classpath:FollowMapper.xml</value>
+            </array>
+        </property>
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
@@ -30,13 +40,48 @@
         <property name="sqlSession" ref="sqlSession"/>
     </bean>
 
+    <bean id="BlockMapper" class="com.bluemsun.dao.impl.BlockMapperImpl">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+
+    <bean id="FileMapper" class="com.bluemsun.dao.impl.FileMapperImpl">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+
     <bean id="UserService" class="com.bluemsun.service.impl.UserServiceImpl"/>
+
+    <bean id="FileService" class="com.bluemsun.service.impl.FileServiceImpl"/>
 
     <bean id="User" class="com.bluemsun.entity.User">
         <property name="banStatus" value="0"/>
         <property name="masterStatus" value="0"/>
     </bean>
 
-    <bean id="myPostsPage" class="com.bluemsun.entity.Page"/>
+    <bean id="myPage" class="com.bluemsun.entity.Page"/>
+
+    <bean id="CommentMapper" class="com.bluemsun.dao.impl.CommentMapperImpl">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+
+    <bean id="ZanMapper" class="com.bluemsun.dao.impl.ZanMapperImpl">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+
+    <bean id="PostsService" class="com.bluemsun.service.impl.PostsServiceImpl"/>
+
+    <bean id="PostsMapper" class="com.bluemsun.dao.impl.PostsMapperImpl">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+
+    <bean id="IndexService" class="com.bluemsun.service.impl.IndexServiceImpl"/>
+
+    <bean id="File" class="com.bluemsun.entity.File"/>
+
+    <bean id="OneComment" class="com.bluemsun.entity.OneComment"/>
+    <bean id="TwoComment" class="com.bluemsun.entity.TwoComment"/>
+
+    <bean id="CommentService" class="com.bluemsun.service.impl.CommentServiceImpl"/>
+
+    <bean id="BlockService" class="com.bluemsun.service.impl.BlockServiceImpl"/>
 
 </beans>

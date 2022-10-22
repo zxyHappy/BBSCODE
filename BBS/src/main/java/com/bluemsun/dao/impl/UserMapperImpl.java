@@ -65,4 +65,22 @@ public class UserMapperImpl implements UserMapper {
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         return userMapper.getPostsByUser(id,startIndex);
     }
+
+    @Override
+    public int updatePassword(String password, int id) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        return userMapper.updatePassword(password,id);
+    }
+
+    @Override
+    public int updateNickName(String nickName, int id) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        return userMapper.updateNickName(nickName,id);
+    }
+
+    @Override
+    public int updateTelephone(String telephone, int id) {
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        return userMapper.updateTelephone(telephone,id);
+    }
 }

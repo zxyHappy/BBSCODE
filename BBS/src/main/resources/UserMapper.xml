@@ -42,4 +42,8 @@
         update bbs_user set password = #{password} where id = #{id}
     </update>
 
+    <update id="updateNickName">
+        update bbs_user set nick_name = #{nickName} where id = #{id}
+    </update>
+
 </mapper>

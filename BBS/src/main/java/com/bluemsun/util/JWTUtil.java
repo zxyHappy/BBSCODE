@@ -46,6 +46,7 @@ public class JWTUtil {
         builder.withClaim("telephone",user.getTelephone());
         builder.withClaim("nickName",user.getNickName());
         builder.withClaim("masterStatus",user.getMasterStatus());
+        builder.withClaim("idPhoto",user.getIdPhoto());
         String token = builder.withExpiresAt(calendar.getTime()).sign(Algorithm.HMAC256(SECRET));
         return token;
     }

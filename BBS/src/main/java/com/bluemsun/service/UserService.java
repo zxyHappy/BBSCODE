@@ -48,4 +48,16 @@ public interface UserService {
      * @return
      */
     Page<Posts> getPostsByUser(int id,int index);
+
+    /**
+     *
+     * @param password 新的密码
+     * @param id 用户id
+     * @return
+     */
+    String updatePassword(String password,int id);
+
+    String updateNickName(String nickName,int id);
+
+    String updateTelephone(String telephone,int id);
 }

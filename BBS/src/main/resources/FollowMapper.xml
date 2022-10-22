@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.dao.mapper.FollowMapper">
+    
+    <select id="getFollower" resultType="com.bluemsun.entity.Follow">
+        select * from bbs_followp where user_id = #{userId}
+    </select>
+
+    <select id="getFans" resultType="com.bluemsun.entity.Follow">
+        select * from bbs_followp where user_followed = #{userId}
+    </select>
+
+</mapper>

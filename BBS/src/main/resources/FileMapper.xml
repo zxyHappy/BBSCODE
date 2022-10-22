@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.dao.mapper.FileMapper">
+
+    <insert id="addFile" parameterType="com.bluemsun.entity.File" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into bbs_file (user_id,posts_id,url,file_name,real_path) values (#{userId},#{postsId},#{url},#{fileName},#{realPath})
+    </insert>
+
+    <select id="getFile" resultType="com.bluemsun.entity.File">
+        select * from bbs_file where posts_id = #{id}
+    </select>
+
+    <select id="getFileById" resultType="com.bluemsun.entity.File">
+        select * from bbs_file where id = #{id}
+    </select>
+
+</mapper>

@@ -55,5 +55,16 @@ public interface UserMapper {
      */
     List<Posts> getPostsByUser(@Param("id")int id,@Param("startIndex") int startIndex);
 
+    /**
+     *
+     * @param password 更新的密码
+     * @param id 用户id
+     * @return 是否成功
+     */
+    int updatePassword(@Param("password") String password, @Param("id") int id);
+
+    int updateNickName(@Param("nickName") String nickName,@Param("id") int id);
+
+    int updateTelephone(@Param("telephone") String telephone,@Param("id") int id);
 
 }

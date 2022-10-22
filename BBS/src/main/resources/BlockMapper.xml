@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.dao.mapper.BlockMapper">
+    <select id="getBlockName" resultType="java.lang.String">
+        select block_name from bbs_block where id = #{id}
+    </select>
+
+    <select id="getBlocks" resultType="com.bluemsun.entity.Block">
+        select * from bbs_block order by scan_number desc limit 0,5
+    </select>
+
+    <insert id="addBlock" parameterType="com.bluemsun.entity.Block">
+        insert into bbs_block (block_name,describe) values (#{blockName},#{describe})
+    </insert>
+
+    <select id="showBlocks" resultType="com.bluemsun.entity.Block">
+        select * from bbs_block
+    </select>
+
+    <update id="addScan">
+        update bbs_block set scan_number = scan_number+1 where id = #{id}
+    </update>
+
+    <select id="showBlockMessage" resultType="com.bluemsun.entity.Block">
+        select * from bbs_block where id = #{id}
+    </select>
+
+    <select id="getBlockMaster" resultType="com.bluemsun.entity.BlockMaster">
+        select * from bbs_master where block_id = #{blockId}
+    </select>
+
+    <update id="addPostsNumber">
+        update bbs_block set posts_number = posts_number+1 where id = #{id}
+    </update>
+
+    <update id="deletePostsNumber">
+        update bbs_block set posts_number = posts_number-1 where id = #{id}
+    </update>
+
+</mapper>

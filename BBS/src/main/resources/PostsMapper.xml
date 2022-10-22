@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.dao.mapper.PostsMapper">
+
+    <insert id="addPosts" parameterType="com.bluemsun.entity.Posts">
+        insert into bbs_posts (block_id,user_id,date,head,body) values (#{blockId}, #{userId},now(), #{head}, #{body})
+    </insert>
+
+    <select id="showPosts" resultType="com.bluemsun.entity.Posts">
+        select * from bbs_posts where id = #{id}
+    </select>
+
+    <select id="getComments" resultType="com.bluemsun.entity.OneComment">
+        select * from bbs_commentone where posts_id = #{postsId} order by id desc limit #{startIndex},5
+    </select>
+
+    <select id="getOneCommentNumber" resultType="int">
+        select count(*) from bbs_commentone where posts_id = #{postsId}
+    </select>
+
+    <update id="addScan">
+        update bbs_posts set scan_number = scan_number+1 where id = #{id}
+    </update>
+
+    <select id="getTopPosts" resultType="com.bluemsun.entity.Posts">
+        select * from bbs_posts order by scan_number desc limit 0,10
+    </select>
+
+    <select id="getHotPosts" resultType="com.bluemsun.entity.Posts">
+        select * from bbs_posts where block_id = #{blockId} order by scan_number desc limit 0,5
+    </select>
+
+    <select id="getNumberByBlock" resultType="int">
+        select count(*) from bbs_posts where block_id = #{blockId}
+    </select>
+
+    <update id="addLike">
+        update bbs_posts set like_number = like_number+1 where if = #{id}
+    </update>
+
+    <update id="deleteLike">
+        update bbs_posts set like_number = like_number-1 where id = #{id}
+    </update>
+
+    <update id="addComment">
+        update bbs_posts set reply_number = reply_number+1 where id = #{id}
+    </update>
+
+    <update id="deleteComment">
+        update bbs_posts set reply_number = reply_number-1 where id = #{id}
+    </update>
+
+    <update id="setTop">
+        update bbs_posts set top_status = 1 where id = #{id}
+    </update>
+
+    <update id="deleteTop">
+        update bbs_posts set top_status = 0 where id = #{id}
+    </update>
+
+    <select id="getTop" resultType="com.bluemsun.entity.Posts">
+        select * from bbs_posts where block_id = #{blockId} and top_status = 1
+    </select>
+
+    <select id="getPosts" resultType="com.bluemsun.entity.Posts">
+      select * from bbs_posts where block_id = #{blockId} and top_status = 0 order by id desc limit #{startIndex},10
+    </select>
+
+
+    <update id="updatePosts">
+        update bbs_posts set date = now(),head = #{head},body = #{body} where id = #{id}
+    </update>
+
+    <delete id="deletePosts">
+        delete from bbs_posts where id = #{id}
+    </delete>
+
+</mapper>

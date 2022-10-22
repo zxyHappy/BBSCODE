@@ -12,6 +12,25 @@ public class Posts {
     private String body;
     private int topStatus;
     private int hotStatus;
+    private User user;
+
+    private int zanStatus;
+
+    public int getZanStatus() {
+        return zanStatus;
+    }
+
+    public void setZanStatus(int zanStatus) {
+        this.zanStatus = zanStatus;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getId() {
         return id;
