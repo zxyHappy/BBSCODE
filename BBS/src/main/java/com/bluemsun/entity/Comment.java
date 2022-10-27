@@ -1,5 +1,7 @@
 package com.bluemsun.entity;
 
+
+
 public class Comment {
     private int id;
     private int userId;
@@ -8,22 +10,30 @@ public class Comment {
     private String body;
     private User user;
     private int likeNumber;
+    private int likeStatus;
+    private int childCommentNumber;
 
-    public int getlikeNumber() {
+    public int getChildCommentNumber() {
+        return childCommentNumber;
+    }
+
+    public void setChildCommentNumber(int childCommentNumber) {
+        this.childCommentNumber = childCommentNumber;
+    }
+
+    public int getLikeNumber() {
         return likeNumber;
     }
 
-    public void setlikeNumber(int likeNumber) {
+    public void setLikeNumber(int likeNumber) {
         this.likeNumber = likeNumber;
     }
 
-    private int likeStatus;
-
-    public int getlikeStatus() {
+    public int getLikeStatus() {
         return likeStatus;
     }
 
-    public void setlikeStatus(int likeStatus) {
+    public void setLikeStatus(int likeStatus) {
         this.likeStatus = likeStatus;
     }
 

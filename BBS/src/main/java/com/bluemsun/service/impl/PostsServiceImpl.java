@@ -19,6 +19,8 @@ public class PostsServiceImpl implements PostsService {
     @Autowired BlockMapper blockMapper;
     @Autowired FileMapper fileMapper;
     @Autowired FollowMapper followMapper;
+    @Autowired CommentMapper commentMapper;
+
 
     @Override
     public String addPosts(Posts posts) {
@@ -75,15 +77,15 @@ public class PostsServiceImpl implements PostsService {
         List<Comment> commentList = postsMapper.getComments(id);
         for(Comment c:commentList){
             c.setUser(userMapper.getUserById(c.getUserId()));
-//            c.setlikeNumber(likeMapper.likeNumberOne(c.getId()));
-            if(!jedis.hexists("posts_id_"+id,"like_number")) c.setlikeNumber(0);
+            c.setChildCommentNumber(commentMapper.getTwoCommentNumber(c.getId()));
+            if(!jedis.hexists("posts_id_"+id,"like_number")) c.setLikeNumber(0);
             else {
                 int likeNumber = Integer.parseInt(jedis.hget("posts_id_"+id,"like_number"));
-                c.setlikeNumber(likeNumber);
+                c.setLikeNumber(likeNumber);
             }
             if(jedis.hexists("user_id_"+userId,"one_id_"+c.getId()) && "1".equals(jedis.hget("user_id_"+userId,"one_id_"+c.getId()))){
-                c.setlikeStatus(1);
-            }else c.setlikeStatus(0);
+                c.setLikeStatus(1);
+            }else c.setLikeStatus(0);
         }
         List<File> fileList = fileMapper.getFile(id);
         for(File file:fileList){

@@ -23,7 +23,7 @@
 <!--    </environments>-->
 
 <!--    <mappers>-->
-<!--        <mapper resource="UserMapper.xml"/>-->
+<!--        <mapper resource="*Mapper.xml"/>-->
 <!--    </mappers>-->
 
 

@@ -20,7 +20,17 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <property name="mapperLocations" value="mapper/*.xml"/>
+        <property name="mapperLocations" >
+            <array>
+                <value>classpath:UserMapper.xml</value>
+                <value>classpath:PostsMapper.xml</value>
+                <value>classpath:BlockMapper.xml</value>
+                <value>classpath:FileMapper.xml</value>
+                <value>classpath:CommentMapper.xml</value>
+                <value>classpath:LikeMapper.xml</value>
+                <value>classpath:FollowMapper.xml</value>
+            </array>
+        </property>
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
@@ -73,6 +83,7 @@
     <bean id="File" class="com.bluemsun.entity.File"/>
 
     <bean id="OneComment" class="com.bluemsun.entity.Comment"/>
+
     <bean id="TwoComment" class="com.bluemsun.entity.ChildComment"/>
 
     <bean id="CommentService" class="com.bluemsun.service.impl.CommentServiceImpl"/>

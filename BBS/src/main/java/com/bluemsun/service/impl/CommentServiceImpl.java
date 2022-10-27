@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
     public String addOneComment(int userId, int postsId, String body) {
         comment.setComment(userId,postsId,body);
         int i = commentMapper.addOneComment(comment);
-        postsMapper.addComment(postsId);  //帖子量增加
+        postsMapper.addComment(postsId);  //回复量增加
         Jedis jedis = RedisUtil.getJedis();
         if(i != 0 && jedis != null) {
             jedis.set("one_id_"+ comment.getId(),"0");
@@ -50,11 +50,12 @@ public class CommentServiceImpl implements CommentService {
             for (Comment comment : list) {
                 comment.setUser(userMapper.getUserById(comment.getUserId()));
                 if(jedis.exists("one_id_" + comment.getId())){
-                    comment.setlikeNumber(Integer.parseInt(jedis.get("one_id_" + comment.getId())));
-                }else comment.setlikeNumber(0);
+                    comment.setLikeNumber(Integer.parseInt(jedis.get("one_id_" + comment.getId())));
+                }else comment.setLikeNumber(0);
 //                if(jedis.hexists("user_id_"+userId,"one_id_"+comment.getId()) && "1".equals(jedis.hget("user_id_"+userId,"one_id_"+comment.getId()))){
 //                    comment.setlikeStatus(1);
 //                }else comment.setlikeStatus(0);
+//                comment.setChildCommentNumber(commentMapper.getTwoCommentNumber(comment.getId()));
             }
         }
         return list;
@@ -158,8 +159,8 @@ public class CommentServiceImpl implements CommentService {
         if (jedis != null){
             for (Comment comment : commentList) {
                 if (jedis.hexists("userid_" + userId, "one_id_" + comment.getId()) && "1".equals(jedis.hget("userid_" + userId, "one_id_" + (comment.getId()))))
-                    comment.setlikeStatus(1);
-                else comment.setlikeStatus(0);
+                    comment.setLikeStatus(1);
+                else comment.setLikeStatus(0);
             }
         }
         RedisUtil.closeJedis(jedis);

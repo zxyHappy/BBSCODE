@@ -4,8 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bluemsun.dao.mapper.UserMapper">
 
-
-
     <select id="getUserById" resultType="com.bluemsun.entity.User" parameterType="int">
         select * from bbs_user where id = #{id}
     </select>
