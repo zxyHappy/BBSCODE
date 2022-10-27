@@ -14,14 +14,14 @@ public class Posts {
     private int hotStatus;
     private User user;
 
-    private int zanStatus;
+    private int likeStatus;
 
-    public int getZanStatus() {
-        return zanStatus;
+    public int getlikeStatus() {
+        return likeStatus;
     }
 
-    public void setZanStatus(int zanStatus) {
-        this.zanStatus = zanStatus;
+    public void setlikeStatus(int likeStatus) {
+        this.likeStatus = likeStatus;
     }
 
     public User getUser() {

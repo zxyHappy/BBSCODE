@@ -1,8 +1,8 @@
 package com.bluemsun.dao.impl;
 
 import com.bluemsun.dao.mapper.CommentMapper;
-import com.bluemsun.entity.OneComment;
-import com.bluemsun.entity.TwoComment;
+import com.bluemsun.entity.ChildComment;
+import com.bluemsun.entity.Comment;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import java.util.List;
@@ -18,26 +18,26 @@ public class CommentMapperImpl implements CommentMapper {
     }
 
     @Override
-    public int addOneComment(OneComment oneComment) {
-        return commentMapper.addOneComment(oneComment);
+    public int addOneComment(Comment comment) {
+        return commentMapper.addOneComment(comment);
     }
 
     @Override
-    public List<OneComment> getOneComment(int postsId, int startIndex) {
+    public List<Comment> getOneComment(int postsId) {
 //        CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
-        return commentMapper.getOneComment(postsId,startIndex);
+        return commentMapper.getOneComment(postsId);
     }
 
     @Override
-    public List<TwoComment> getTwoComment(int oneId, int startIndex) {
+    public List<ChildComment> getTwoComment(int oneId) {
 //        CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
-        return commentMapper.getTwoComment(oneId,startIndex);
+        return commentMapper.getTwoComment(oneId);
     }
 
     @Override
-    public int addTwoComment(TwoComment twoComment) {
+    public int addTwoComment(ChildComment childComment) {
 //        CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
-        return commentMapper.addTwoComment(twoComment);
+        return commentMapper.addTwoComment(childComment);
     }
 
     @Override
@@ -65,13 +65,13 @@ public class CommentMapperImpl implements CommentMapper {
     }
 
     @Override
-    public OneComment getOneCommentById(int id) {
+    public Comment getOneCommentById(int id) {
 //        CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
         return commentMapper.getOneCommentById(id);
     }
 
     @Override
-    public TwoComment getTwoCommentById(int id) {
+    public ChildComment getTwoCommentById(int id) {
 //        CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
         return commentMapper.getTwoCommentById(id);
     }

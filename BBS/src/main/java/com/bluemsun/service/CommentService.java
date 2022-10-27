@@ -1,8 +1,8 @@
 package com.bluemsun.service;
 
-import com.bluemsun.entity.OneComment;
+import com.bluemsun.entity.Comment;
 import com.bluemsun.entity.Page;
-import com.bluemsun.entity.TwoComment;
+import com.bluemsun.entity.ChildComment;
 
 import java.util.List;
 
@@ -20,28 +20,22 @@ public interface CommentService {
     /**
      *
      * @param postsId 帖子id
-     * @param index 页码值
      * @return
      */
-    Page<OneComment> getOneComment(int postsId, int index);
+    List<Comment> getOneComment(int postsId, int userId);
 
     /**
      *
      * @param oneId  所属的一级评论id
-     * @param index 页码值
      * @return
      */
-    Page<TwoComment> getTwoComment(int oneId,int index);
+    List<ChildComment> getTwoComment(int oneId,int userId);
 
     /**
      *
-     * @param oneId 所属的一级评论的id
-     * @param useridSend 发送二级评论的用户id，token里取出
-     * @param useridReply 前端发送的被回复人的id
-     * @param body 评论内容
      * @return
      */
-    String addTwoComment(int oneId,int useridSend,int useridReply,String body);
+    String addTwoComment(ChildComment childComment);
 
     /**
      * 更新一级评论点赞状态
@@ -62,11 +56,10 @@ public interface CommentService {
     /**
      * 设置是否已被点赞
      * @param userId
-     * @param commentPage
      */
-    void setLikeStatusOne(int userId,Page<OneComment> commentPage);
+    void setLikeStatusOne(int userId,List<Comment> commentList);
 
-    void setLikeStatusTwo(int userId,Page<TwoComment> commentPage);
+    void setLikeStatusTwo(int userId,List<ChildComment> commentList);
 
     /**
      * 删除一级评论

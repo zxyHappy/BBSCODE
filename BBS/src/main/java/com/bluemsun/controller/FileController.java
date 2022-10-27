@@ -3,9 +3,9 @@ package com.bluemsun.controller;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.bluemsun.entity.Result;
 import com.bluemsun.service.FileService;
-import com.bluemsun.service.impl.FileServiceImpl;
-import com.bluemsun.util.JsonUtil;
+import com.bluemsun.util.DataUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +29,7 @@ import java.util.UUID;
 public class FileController {
 
     @RequestMapping(value = "/add")
-    public String addFile(HttpServletRequest request, @RequestParam("postsId") int postsId,@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+    public Result addFile(HttpServletRequest request, @RequestParam("postsId") int postsId,@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         com.bluemsun.entity.File file1 =(com.bluemsun.entity.File) context.getBean("File");
         String fileName = file.getOriginalFilename();
@@ -49,7 +49,7 @@ public class FileController {
         FileService fileService = (FileService) context.getBean("FileService");
         DecodedJWT decodedJWT = (DecodedJWT) request.getAttribute("decodedJWT");
         Claim userId = decodedJWT.getClaim("id");
-        String url = "http://43.140.247.80:8080/showfile/"+fileName;
+        String url = DataUtil.URL+ "/showfile/"+fileName;
         file1.setUrl(url);
         file1.setUserId(userId.asInt());
         file1.setPostsId(postsId);
@@ -58,7 +58,7 @@ public class FileController {
         m.put("msg",msg);
         m.put("url",url);
         m.put("fileId",file1.getId());
-        return JsonUtil.toJson(m);
+        return Result.ok().data(m);
     }
 
     @RequestMapping(value = "/download/{id}")

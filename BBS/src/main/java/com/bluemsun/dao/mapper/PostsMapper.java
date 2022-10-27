@@ -1,6 +1,6 @@
 package com.bluemsun.dao.mapper;
 
-import com.bluemsun.entity.OneComment;
+import com.bluemsun.entity.Comment;
 import com.bluemsun.entity.Posts;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,10 +25,9 @@ public interface PostsMapper {
     /**
      *
      * @param postsId 帖子id
-     * @param startIndex 页码
      * @return 评论列表
      */
-    List<OneComment> getComments(@Param("postsId") int postsId,@Param("startIndex") int startIndex);
+    List<Comment> getComments(@Param("postsId") int postsId);
 
     int getOneCommentNumber(@Param("postsId") int postsId);
 
@@ -87,5 +86,7 @@ public interface PostsMapper {
     int deletePosts(@Param("id") int id);
 
 
+    int setScanNumber(@Param("scanNumber") int scanNumber);
 
+    int getScanNumber(@Param("id") int id);
 }

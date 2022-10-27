@@ -2,16 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.2.xsd
-       http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd
-       http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx.xsd">
+       ">
 
     <context:component-scan base-package="com.bluemsun.controller" />
 
@@ -25,17 +20,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <property name="mapperLocations" >
-            <array>
-                <value>classpath:UserMapper.xml</value>
-                <value>classpath:PostsMapper.xml</value>
-                <value>classpath:BlockMapper.xml</value>
-                <value>classpath:FileMapper.xml</value>
-                <value>classpath:CommentMapper.xml</value>
-                <value>classpath:LikeMapper.xml</value>
-                <value>classpath:FollowMapper.xml</value>
-            </array>
-        </property>
+        <property name="mapperLocations" value="mapper/*.xml"/>
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
@@ -87,8 +72,8 @@
 
     <bean id="File" class="com.bluemsun.entity.File"/>
 
-    <bean id="OneComment" class="com.bluemsun.entity.OneComment"/>
-    <bean id="TwoComment" class="com.bluemsun.entity.TwoComment"/>
+    <bean id="OneComment" class="com.bluemsun.entity.Comment"/>
+    <bean id="TwoComment" class="com.bluemsun.entity.ChildComment"/>
 
     <bean id="CommentService" class="com.bluemsun.service.impl.CommentServiceImpl"/>
 
@@ -97,11 +82,14 @@
 
     <bean id="FollowService" class="com.bluemsun.service.impl.FollowServiceImpl"/>
 
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
 
-    <bean id="Follow" class="com.bluemsun.entity.Follow"/>
+<!--    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+<!--        <property name="dataSource" ref="dataSource" />-->
+<!--    </bean>-->
+
+
+<!--    <bean id="Follow" class="com.bluemsun.entity.Follow"/>-->
+
 
 
 

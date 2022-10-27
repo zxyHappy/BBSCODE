@@ -1,10 +1,7 @@
 package com.bluemsun.service;
 
-import com.bluemsun.entity.OneComment;
 import com.bluemsun.entity.Posts;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 import java.util.Map;
 
 public interface PostsService {

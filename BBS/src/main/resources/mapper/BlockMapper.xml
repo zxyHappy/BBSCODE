@@ -31,7 +31,7 @@
         select * from bbs_master where block_id = #{blockId}
     </select>
 
-    <update id="addPostsNumber">
+    <update id="addPostsNumber"  >
         update bbs_block set posts_number = posts_number+1 where id = #{id}
     </update>
 
@@ -39,4 +39,7 @@
         update bbs_block set posts_number = posts_number-1 where id = #{id}
     </update>
 
+    <select id="searchBlock" resultType="com.bluemsun.entity.Block">
+        select * from bbs_block
+    </select>
 </mapper>

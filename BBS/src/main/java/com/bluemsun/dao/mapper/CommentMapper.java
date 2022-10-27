@@ -1,7 +1,7 @@
 package com.bluemsun.dao.mapper;
 
-import com.bluemsun.entity.OneComment;
-import com.bluemsun.entity.TwoComment;
+import com.bluemsun.entity.ChildComment;
+import com.bluemsun.entity.Comment;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,28 +10,26 @@ public interface CommentMapper {
 
     /**
      * 添加一级评论
-     * @param oneComment
+     * @param comment
      * @return
      */
-    int addOneComment(OneComment oneComment);
+    int addOneComment(Comment comment);
 
     /**
      * 获取某一页的一级回复
      * @param postsId 帖子id
-     * @param startIndex 当前页第一个评论的下标
      * @return
      */
-    List<OneComment> getOneComment(@Param("postsId") int postsId,@Param("startIndex") int startIndex);
+    List<Comment> getOneComment(@Param("postsId") int postsId);
 
     /**
      *
      * @param oneId 所属一级评论的id
-     * @param startIndex 当前页第一个二级评论的下标
      * @return
      */
-    List<TwoComment> getTwoComment(@Param("oneId") int oneId,@Param("startIndex") int startIndex);
+    List<ChildComment> getTwoComment(@Param("oneId") int oneId);
 
-    int addTwoComment(TwoComment twoComment);
+    int addTwoComment(ChildComment childComment);
 
     /**
      * 获取某个帖子下一级评论总数
@@ -51,7 +49,7 @@ public interface CommentMapper {
 
     int deleteTwoComment(@Param("id") int id);
 
-    OneComment getOneCommentById(@Param("id") int id);
+    Comment getOneCommentById(@Param("id") int id);
 
-    TwoComment getTwoCommentById(@Param("id") int id);
+    ChildComment getTwoCommentById(@Param("id") int id);
 }

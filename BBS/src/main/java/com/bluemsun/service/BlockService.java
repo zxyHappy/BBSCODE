@@ -19,14 +19,14 @@ public interface BlockService {
      * 板块页面展示所有板块
      * @return
      */
-    List<Block> showBlock();
+    List<Block> showBlock(int userId);
 
     /**
      * 获取板块详情页
      * @param blockId
      * @return
      */
-    Map<String,Object> showBlockMessage(int blockId);
+    Map<String,Object> showBlockMessage(int blockId,int userId);
 
     /**
      * 获取板块界面某也的帖子

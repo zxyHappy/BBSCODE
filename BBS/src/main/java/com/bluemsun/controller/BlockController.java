@@ -1,17 +1,14 @@
 package com.bluemsun.controller;
 
 
+import com.bluemsun.entity.Result;
 import com.bluemsun.service.BlockService;
 import com.bluemsun.service.UserService;
-import com.bluemsun.util.JsonUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -27,18 +24,20 @@ public class BlockController {
     private UserService userService = (UserService) context.getBean("UserService");
 
     @RequestMapping(value = "/show/{id}")
-    public String showBlock(@PathVariable int id, HttpServletRequest request) throws JsonProcessingException {
+    public Result showBlock(@PathVariable int id, HttpServletRequest request) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
-        Map<String,Object> map = blockService.showBlockMessage(id);
+        Map<String,Object> map = blockService.showBlockMessage(id,userId);
         map.put("idPhoto",userService.getUserById(userId).getIdPhoto());
         map.put("nickName",userService.getUserById(userId).getNickName());
-        return JsonUtil.toJson(map);
+        return Result.ok().data(map);
     }
 
     @RequestMapping(value = "/show/page/{id}/{index}")
-    public String getPosts(@PathVariable int index, @PathVariable int id) throws JsonProcessingException {
-        return JsonUtil.toJson(blockService.showPostsPage(id,index));
+    public Result getPosts(@PathVariable int index, @PathVariable int id) throws JsonProcessingException {
+//        return JsonUtil.toJson(blockService.showPostsPage(id,index));
+          return Result.ok().data("page",blockService.showPostsPage(id,index));
     }
+
 
 
 }

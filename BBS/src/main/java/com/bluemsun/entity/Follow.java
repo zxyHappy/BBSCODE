@@ -58,4 +58,9 @@ public class Follow {
     public void setBlockId(int blockId) {
         this.blockId = blockId;
     }
+
+    public Follow(int userId, int userFollowed) {
+        this.userId = userId;
+        this.userFollowed = userFollowed;
+    }
 }

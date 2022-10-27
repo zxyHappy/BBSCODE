@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bluemsun.dao.mapper.PostsMapper">
 
-    <insert id="addPosts" parameterType="com.bluemsun.entity.Posts">
+    <insert id="addPosts" parameterType="com.bluemsun.entity.Posts" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into bbs_posts (block_id,user_id,date,head,body) values (#{blockId}, #{userId},now(), #{head}, #{body})
     </insert>
 
@@ -12,8 +12,8 @@
         select * from bbs_posts where id = #{id}
     </select>
 
-    <select id="getComments" resultType="com.bluemsun.entity.OneComment">
-        select * from bbs_commentone where posts_id = #{postsId} order by id desc limit #{startIndex},5
+    <select id="getComments" resultType="com.bluemsun.entity.Comment">
+        select * from bbs_commentone where posts_id = #{postsId} order by id desc
     </select>
 
     <select id="getOneCommentNumber" resultType="int">
@@ -76,5 +76,13 @@
     <delete id="deletePosts">
         delete from bbs_posts where id = #{id}
     </delete>
+
+    <update id="setScanNumber">
+        update bbs_posts set scan_number = #{scanNumber}
+    </update>
+
+    <select id="getScanNumber" resultType="int">
+        select scan_number from bbs_posts where id = #{id}
+    </select>
 
 </mapper>

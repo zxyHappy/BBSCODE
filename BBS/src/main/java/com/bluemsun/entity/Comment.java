@@ -1,30 +1,30 @@
 package com.bluemsun.entity;
 
-public class OneComment {
+public class Comment {
     private int id;
     private int userId;
     private int postsId;
     private String date;
     private String body;
     private User user;
-    private int zanNumber;
+    private int likeNumber;
 
-    public int getZanNumber() {
-        return zanNumber;
+    public int getlikeNumber() {
+        return likeNumber;
     }
 
-    public void setZanNumber(int zanNumber) {
-        this.zanNumber = zanNumber;
+    public void setlikeNumber(int likeNumber) {
+        this.likeNumber = likeNumber;
     }
 
-    private int zanStatus;
+    private int likeStatus;
 
-    public int getZanStatus() {
-        return zanStatus;
+    public int getlikeStatus() {
+        return likeStatus;
     }
 
-    public void setZanStatus(int zanStatus) {
-        this.zanStatus = zanStatus;
+    public void setlikeStatus(int likeStatus) {
+        this.likeStatus = likeStatus;
     }
 
     public void setComment(int userId, int postsId, String body){

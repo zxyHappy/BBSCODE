@@ -2,12 +2,12 @@ package com.bluemsun.controller;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.bluemsun.entity.OneComment;
+import com.bluemsun.entity.ChildComment;
+import com.bluemsun.entity.Comment;
 import com.bluemsun.entity.Page;
-import com.bluemsun.entity.TwoComment;
+import com.bluemsun.entity.Result;
 import com.bluemsun.service.CommentService;
 import com.bluemsun.util.JWTUtil;
-import com.bluemsun.util.JsonUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,70 +31,57 @@ public class CommentController {
 
 
     @RequestMapping(value = "/add/one")
-    public String addOneComment(HttpServletRequest request, @RequestBody Map<String,Object> m) throws JsonProcessingException {
+    public Result addOneComment(HttpServletRequest request, @RequestBody Map<String,Object> m) throws JsonProcessingException {
         int userId = (int)request.getAttribute("id");
         int postsId =(int) m.get("postsId");
         String body = (String) m.get("body");
         map.clear();
         map.put("msg",commentService.addOneComment(userId,postsId,body));
-        return JsonUtil.toJson(map);
+        return Result.ok().data(map);
     }
 
     @RequestMapping(value = "/add/two")
-    public String addTwoComment(HttpServletRequest request,@RequestBody Map<String,Object> m) throws JsonProcessingException {
-        int useridSend = (int)request.getAttribute("id");
-        int oneId = (int)m.get("oneId");
-        int useridReply =(int) m.get("useridReply");
-        String body = (String) m.get("body");
-        map.clear();
-        map.put("msg",commentService.addTwoComment(oneId,useridSend,useridReply,body));
-        return JsonUtil.toJson(map);
+    public Result addTwoComment(HttpServletRequest request,@RequestBody ChildComment comment) throws JsonProcessingException {
+        comment.setUseridSend((int)request.getAttribute("id"));
+        return Result.ok().data("msg",commentService.addTwoComment(comment));
     }
 
-    @RequestMapping(value = "/show/one/{postsId}/{index}")
-    public String showOneComment(@PathVariable int postsId,@PathVariable int index,HttpServletRequest request) throws JsonProcessingException {
-        Page<OneComment> commentPage = commentService.getOneComment(postsId,index);
+    @GetMapping(value = "/show/one/{postsId}")
+    public Result showOneComment(@PathVariable int postsId,HttpServletRequest request) throws JsonProcessingException {
+        int userId =(int) request.getAttribute("id");
+        List<Comment> commentList = commentService.getOneComment(postsId,userId);
         String msg = (String) request.getAttribute("msg");
         if(msg.equals("用户")){
-            String token =(String) request.getAttribute("token");
-            DecodedJWT decodedJWT = JWTUtil.decode(token);
-            Claim userId = decodedJWT.getClaim("id");
-            commentService.setLikeStatusOne(userId.asInt(),commentPage);
+            commentService.setLikeStatusOne(userId,commentList);
         }
-        return JsonUtil.toJson(commentPage);
+        return Result.ok().data("commentPage",commentList);
     }
 
-    @RequestMapping(value = "/show/two/{oneId}/{index}")
-    public String showTwoComment(@PathVariable int oneId,@PathVariable int index,HttpServletRequest request) throws JsonProcessingException {
-        Page<TwoComment> commentPage = commentService.getTwoComment(oneId,index);
+    @GetMapping(value = "/show/two/{oneId}")
+    public Result showTwoComment(@PathVariable int oneId,HttpServletRequest request) throws JsonProcessingException {
+        int userId = (int) request.getAttribute("id");
+        List<ChildComment> commentList = commentService.getTwoComment(oneId,userId);
         String msg = (String) request.getAttribute("msg");
         if(msg.equals("用户")){
-            String token =(String) request.getAttribute("token");
-            DecodedJWT decodedJWT = JWTUtil.decode(token);
-            Claim userId = decodedJWT.getClaim("id");
-            commentService.setLikeStatusTwo(userId.asInt(),commentPage);
+            commentService.setLikeStatusTwo(userId,commentList);
         }
-        return JsonUtil.toJson(commentPage);
+        return Result.ok().data("commentPage",commentList);
     }
 
-    @RequestMapping(value = "/update/zan/one/{oneId}")
-    public String updateOneZan(HttpServletRequest request,@PathVariable int oneId) throws JsonProcessingException {
+    @RequestMapping(value = "/update/like/one/{oneId}")
+    public Result updateOnelike(HttpServletRequest request,@PathVariable int oneId) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
-        map.clear();
-        map.put("msg",commentService.updateLikeOne(oneId,userId));
-        return JsonUtil.toJson(map);
+        return Result.ok().data("msg",commentService.updateLikeOne(oneId,userId));
     }
 
-    @RequestMapping(value = "/update/zan/two/{twoId}")
-    public String updateTwoZan(HttpServletRequest request,@PathVariable int twoId) throws JsonProcessingException {
+    @RequestMapping(value = "/update/like/two/{twoId}")
+    public Result updateTwolike(HttpServletRequest request,@PathVariable int twoId) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
-        map.clear();
-        map.put("msg",commentService.updateLikeTwo(twoId,userId));
-        return JsonUtil.toJson(map);
+        return Result.ok().data("msg",commentService.updateLikeTwo(twoId,userId));
     }
 
     @RequestMapping(value = "/delete/{type}/{id}")
-    public String deleteComment(HttpServletRequest request,@PathVariable int id,@PathVariable String type) throws JsonProcessingException {
+    public Result deleteComment(HttpServletRequest request,@PathVariable int id,@PathVariable String type) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
         String msg = null;
         if(type.equals("one")) msg = commentService.deleteOneComment(userId,id);
@@ -101,6 +89,6 @@ public class CommentController {
         else msg = "url有误";
         map.clear();
         map.put("msg",msg);
-        return JsonUtil.toJson(map);
+        return Result.ok().data(map);
     }
 }

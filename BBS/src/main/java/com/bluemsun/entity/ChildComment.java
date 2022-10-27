@@ -1,6 +1,6 @@
 package com.bluemsun.entity;
 
-public class TwoComment {
+public class ChildComment {
 
     private int id;
     private int oneId;
@@ -13,24 +13,24 @@ public class TwoComment {
     private int useridReply;
     private String body;
 
-    private int zanNumber;
+    private int likeNumber;
 
-    public int getZanNumber() {
-        return zanNumber;
+    public int getlikeNumber() {
+        return likeNumber;
     }
 
-    public void setZanNumber(int zanNumber) {
-        this.zanNumber = zanNumber;
+    public void setlikeNumber(int likeNumber) {
+        this.likeNumber = likeNumber;
     }
 
-    private int zanStatus;
+    private int likeStatus;
 
-    public int getZanStatus() {
-        return zanStatus;
+    public int getlikeStatus() {
+        return likeStatus;
     }
 
-    public void setZanStatus(int zanStatus) {
-        this.zanStatus = zanStatus;
+    public void setlikeStatus(int likeStatus) {
+        this.likeStatus = likeStatus;
     }
 
     public void setComment(int oneId, int useridSend, int useridReply, String body){

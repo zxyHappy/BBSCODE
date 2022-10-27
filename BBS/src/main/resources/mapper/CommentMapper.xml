@@ -4,19 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bluemsun.dao.mapper.CommentMapper">
 
-    <insert id="addOneComment" parameterType="com.bluemsun.entity.OneComment">
+    <insert id="addOneComment" parameterType="com.bluemsun.entity.Comment" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into bbs_commentone (user_id,posts_id,date,body) values (#{userId},#{postsId},now(),#{body})
     </insert>
 
-    <select id="getOneComment" resultType="com.bluemsun.entity.OneComment">
-        select * from bbs_commentone where posts_id = #{postsId} order by id limit #{startIndex},5
+    <select id="getOneComment" resultType="com.bluemsun.entity.Comment">
+        select * from bbs_commentone where posts_id = #{postsId} order by id
     </select>
 
-    <select id="getTwoComment" resultType="com.bluemsun.entity.TwoComment">
-        select * from bbs_commenttwo where one_id = #{oneId} order by id limit #{startIndex},5
+    <select id="getTwoComment" resultType="com.bluemsun.entity.ChildComment">
+        select * from bbs_commenttwo where one_id = #{oneId} order by id
     </select>
 
-    <insert id="addTwoComment" parameterType="com.bluemsun.entity.TwoComment">
+    <insert id="addTwoComment" parameterType="com.bluemsun.entity.ChildComment" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into bbs_commenttwo (one_id,date,userid_send,userid_reply,body) values (#{oneId},now(),#{useridSend},#{useridReply},#{body})
     </insert>
 
@@ -36,11 +36,11 @@
         delete from bbs_commenttwo where id = #{id}
     </delete>
 
-    <select id="getOneCommentById" resultType="com.bluemsun.entity.OneComment">
+    <select id="getOneCommentById" resultType="com.bluemsun.entity.Comment">
         select * from bbs_commentone where id = #{id}
     </select>
 
-    <select id="getTwoCommentById" resultType="com.bluemsun.entity.TwoComment">
+    <select id="getTwoCommentById" resultType="com.bluemsun.entity.ChildComment">
         select * from bbs_commenttwo where id = #{id}
     </select>
 

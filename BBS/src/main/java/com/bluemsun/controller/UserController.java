@@ -2,16 +2,12 @@ package com.bluemsun.controller;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.bluemsun.dao.mapper.FollowMapper;
-import com.bluemsun.dao.mapper.UserMapper;
-import com.bluemsun.entity.Page;
-import com.bluemsun.entity.Posts;
+import com.bluemsun.entity.Result;
 import com.bluemsun.entity.User;
 import com.bluemsun.service.FollowService;
 import com.bluemsun.service.UserService;
-import com.bluemsun.util.JsonUtil;
+import com.bluemsun.util.DataUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -19,10 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +39,7 @@ public class UserController {
 
 
     @PostMapping (value = "/add")
-    public String addUser(@RequestBody User user) throws JsonProcessingException {
+    public Result addUser(@RequestBody User user) throws JsonProcessingException {
         String msg = userService.addUser(user);
         int status;
         if(msg.equals("注册成功")) status = 1;
@@ -53,22 +47,22 @@ public class UserController {
         map.clear();
         map.put("status",status);
         map.put("msg",msg);
-        return JsonUtil.toJson(map);
+        return Result.ok().data(map);
     }
 
     @PostMapping(value = "/login")
-    public String login(@RequestBody Map<String,String> m) throws IOException {
+    public Result login(@RequestBody Map<String,String> m) throws IOException {
         String msg = userService.loginUser(m.get("idNumber"),m.get("password"));
         int status = 1;
         if(msg.equals("登录失败，请检查输入是否有误") || msg.equals("账号已被封禁，无法登录") || msg.equals("输入不能为空")) status = 0;
         map.clear();
         map.put("status",status);
         map.put("msg",msg);
-        return JsonUtil.toJson(map);
+        return Result.ok().data(map);
     }
 
     @PostMapping (value = "/success/update")
-    public String addUserPhoto(@RequestParam("photo") MultipartFile photo, HttpSession session,HttpServletRequest request) throws IOException {
+    public Result addUserPhoto(@RequestParam("photo") MultipartFile photo, HttpSession session,HttpServletRequest request) throws IOException {
         String fileName = photo.getOriginalFilename();
         String hzName = fileName.substring(fileName.lastIndexOf("."));
         fileName = UUID.randomUUID().toString() + hzName;
@@ -82,82 +76,68 @@ public class UserController {
         photo.transferTo(new File(finalPath));
         DecodedJWT decodedJWT =(DecodedJWT) request.getAttribute("decodedJWT");
         Claim id = decodedJWT.getClaim("id");
-        String url = "http://43.140.247.80:8080/photo/"+fileName;
+        String url = DataUtil.URL+ "/photo/"+fileName;
         String msg = userService.addUserPhoto(url,id.asInt());
         map.clear();
         map.put("msg",msg);
         map.put("url",url);
-        return JsonUtil.toJson(map);
+        return Result.ok().data(map);
     }
 
     @PostMapping(value = "/success/main")
-    public String showUserMessage(HttpServletRequest request) throws JsonProcessingException {
+    public Result showUserMessage(HttpServletRequest request) throws JsonProcessingException {
         int id = (int) request.getAttribute("id");
-        Map<String,Object> map = userService.getUserMessage(id,1);
-        return JsonUtil.toJson(map);
+        return Result.ok().data(userService.getUserMessage(id,1));
     }
 
     @GetMapping(value = "/success/posts/{index}")
-    public String getPostsByUser(@PathVariable int index,HttpServletRequest request) throws JsonProcessingException {
+    public Result getPostsByUser(@PathVariable int index,HttpServletRequest request) throws JsonProcessingException {
         int id = (int) request.getAttribute("id");
-        Page<Posts> postsPage = userService.getPostsByUser(id,index);
-        return JsonUtil.toJson(postsPage);
+        return Result.ok().data("postsPage",userService.getPostsByUser(id,index));
     }
 
     @PostMapping(value = "/password/update")
-    public String updatePassword(HttpServletRequest request,@RequestBody Map<String,String> m) throws JsonProcessingException {
-        String password = m.get("password");
+    public Result updatePassword(HttpServletRequest request,@RequestBody User user) throws JsonProcessingException {
         int id = (int) request.getAttribute("id");
-        String msg = userService.updatePassword(password,id);
+        String msg = userService.updatePassword(user.getPassword(),id);
         int status;
         if(!msg.equals("密码修改失败")) status = 1;
         else status = 0;
         map.clear();
         map.put("status",status);
         map.put("msg",msg);
-        return JsonUtil.toJson(map);
+        return Result.ok().data(map);
     }
 
     @PostMapping(value = "/nickName/update")
-    public String updateNickName(HttpServletRequest request,@RequestBody Map<String,String> m) throws JsonProcessingException {
-        String nickName = m.get("nickName");
+    public Result updateNickName(HttpServletRequest request,@RequestBody User user) throws JsonProcessingException {
         int id = (int) request.getAttribute("id");
-        String msg = userService.updateNickName(nickName,id);
+        String msg = userService.updateNickName(user.getNickName(),id);
         int status;
         if(!msg.equals("昵称修改失败")) status = 1;
         else status = 0;
         map.clear();
         map.put("msg",msg);
         map.put("status",status);
-        return JsonUtil.toJson(map);
+        return Result.ok().data(map);
     }
 
     @RequestMapping(value = "/telephone/update")
-    public String updateTelephone(HttpServletRequest request,@RequestBody Map<String,Object> m) throws JsonProcessingException {
-        String telephone =(String) m.get("telephone");
+    public Result updateTelephone(HttpServletRequest request,@RequestBody User user) throws JsonProcessingException {
         int id = (int) request.getAttribute("id");
-        String msg = userService.updateTelephone(telephone,id);
-        int status;
-        if(!msg.equals("电话修改失败")) status = 1;
-        else status = 0;
-        map.clear();
-        map.put("status",status);
-        map.put("msg",msg);
-        return JsonUtil.toJson(map);
+        String msg = userService.updateTelephone(user.getTelephone(),id);
+        return Result.ok().data("msg",msg);
     }
 
     @RequestMapping(value = "/show/{type}")
-    public String showPeople(HttpServletRequest request,@PathVariable String type) throws JsonProcessingException {
+    public Result showPeople(HttpServletRequest request,@PathVariable String type) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
-        return JsonUtil.toJson(followService.getPeople(userId,type));
+        return Result.ok().data("personMessage",followService.getPeople(userId,type));
     }
 
     @RequestMapping(value = "/update/follow/people/{userFollowed}")
-    public String updateFollowPeople(HttpServletRequest request,@PathVariable int userFollowed) throws JsonProcessingException {
+    public Result updateFollowPeople(HttpServletRequest request,@PathVariable int userFollowed) throws JsonProcessingException {
         int userId = (int)request.getAttribute("id");
-        String msg = followService.updateFollowPeople(userId,userFollowed);
-        map.clear();
-        map.put("msg",msg);
-        return JsonUtil.toJson(map);
+        return Result.ok().data("msg",followService.updateFollowPeople(userId,userFollowed));
     }
 }

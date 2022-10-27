@@ -1,10 +1,8 @@
 package com.bluemsun.dao.impl;
 
 import com.bluemsun.dao.mapper.PostsMapper;
-import com.bluemsun.entity.OneComment;
+import com.bluemsun.entity.Comment;
 import com.bluemsun.entity.Posts;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import java.util.List;
@@ -32,9 +30,9 @@ public class PostsMapperImpl implements PostsMapper {
     }
 
     @Override
-    public List<OneComment> getComments(int postsId, int startIndex) {
+    public List<Comment> getComments(int postsId) {
 //        PostsMapper postsMapper = sqlSession.getMapper(PostsMapper.class);
-        return postsMapper.getComments(postsId,startIndex);
+        return postsMapper.getComments(postsId);
     }
 
     @Override
@@ -127,5 +125,13 @@ public class PostsMapperImpl implements PostsMapper {
         return postsMapper.deletePosts(id);
     }
 
+    @Override
+    public int setScanNumber(int scanNumber) {
+        return postsMapper.setScanNumber(scanNumber);
+    }
 
+    @Override
+    public int getScanNumber(int id) {
+        return postsMapper.getScanNumber(id);
+    }
 }
