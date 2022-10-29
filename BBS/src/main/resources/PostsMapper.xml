@@ -85,4 +85,8 @@
         select scan_number from bbs_posts where id = #{id}
     </select>
 
+    <select id="searchPosts" resultType="com.bluemsun.entity.Posts">
+        select * from bbs_posts where head like concat('%',#{value},'%') or body like concat('%',#{value},'%')
+    </select>
+
 </mapper>

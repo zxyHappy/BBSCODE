@@ -48,4 +48,6 @@ public interface BlockMapper {
     int addPostsNumber(@Param("id") int id);
 
     int deletePostsNumber(@Param("id") int id);
+
+    List<Block> searchBlock(@Param("value") String value);
 }

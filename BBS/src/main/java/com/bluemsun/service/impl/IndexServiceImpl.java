@@ -2,7 +2,9 @@ package com.bluemsun.service.impl;
 
 import com.bluemsun.dao.mapper.*;
 import com.bluemsun.entity.Block;
+import com.bluemsun.entity.Follow;
 import com.bluemsun.entity.Posts;
+import com.bluemsun.entity.User;
 import com.bluemsun.service.IndexService;
 import com.bluemsun.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ public class IndexServiceImpl implements IndexService {
     @Autowired LikeMapper likeMapper;
     @Autowired CommentMapper commentMapper;
     @Autowired UserMapper userMapper;
+    @Autowired FollowMapper followMapper;
 
     @Override
     public Map<String, Object> getIndex(int userId) {
@@ -46,7 +49,31 @@ public class IndexServiceImpl implements IndexService {
     }
 
     @Override
-    public Map<String, Object> indexSearch(String value) {
-        return null;
+    public Map<String, Object> indexSearch(String value,int userId) {
+        List<User> userList = userMapper.searchUser(value);
+        List<Block> blockList = blockMapper.searchBlock(value);
+        List<Posts> postsList = postsMapper.searchPosts(value);
+        for(User user : userList){
+            Follow follow = new Follow(userId,user.getId());
+            if(followMapper.checkFollowPeople(follow) != null){
+                user.setFollowStatus(1);
+            }else user.setFollowStatus(0);
+        }
+        Jedis jedis = RedisUtil.getJedis();
+        if(jedis != null) {
+            for (Block block : blockList) {
+                if(!jedis.exists("block_id_"+block.getId())) block.setScanNumber(0);
+                else block.setScanNumber(Integer.parseInt(jedis.get("block_id_"+block.getId())));
+            }
+            for(Posts posts:postsList){
+                if(!jedis.hexists("posts_id_"+posts.getId(),"like_number")) posts.setLikeNumber(0);
+                else posts.setLikeNumber(Integer.parseInt(jedis.hget("posts_id_"+posts.getId(),"like_number")));
+            }
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("userList",userList);
+        map.put("blockList",blockList);
+        map.put("postsList",postsList);
+        return map;
     }
 }

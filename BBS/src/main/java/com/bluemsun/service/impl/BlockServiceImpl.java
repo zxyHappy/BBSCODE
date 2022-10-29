@@ -48,7 +48,12 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public Map<String, Object> showBlockMessage(int blockId,int userId) {
-        blockMapper.addScan(blockId);
+//        blockMapper.addScan(blockId);
+        Jedis jedis = RedisUtil.getJedis();
+        if(jedis != null){
+            if(!jedis.exists("block_id_"+blockId)) jedis.set("block_id_"+blockId,"0");
+            jedis.incr("block_id_"+blockId);
+        }
         Block block = blockMapper.showBlockMessage(blockId);
         block.setTopList(postsMapper.getTop(blockId));
         List<BlockMaster> blockMasters = blockMapper.getBlockMaster(blockId);

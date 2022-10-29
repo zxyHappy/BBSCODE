@@ -44,4 +44,21 @@ public class FollowMapperImpl implements FollowMapper {
         if(i != 0) return 1;
         return 0;
     }
+
+    @Override
+    public int addFollowBlock(Follow follow) {
+        int i = followMapper.addFollowBlock(follow);
+        if(i != 0) return 1;
+        return 0;
+    }
+
+    @Override
+    public List<Follow> getFollowBlock(int userId) {
+        return followMapper.getFollowBlock(userId);
+    }
+
+    @Override
+    public Follow checkFollowBlock(Follow follow) {
+        return followMapper.checkFollowBlock(follow);
+    }
 }

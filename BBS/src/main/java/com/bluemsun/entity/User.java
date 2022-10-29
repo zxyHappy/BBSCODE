@@ -10,7 +10,15 @@ public class User {
     private int masterStatus;
     private String idPhoto;
 
+    private int followStatus;
 
+    public int getFollowStatus() {
+        return followStatus;
+    }
+
+    public void setFollowStatus(int followStatus) {
+        this.followStatus = followStatus;
+    }
 
     public User() {
     }

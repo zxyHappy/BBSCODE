@@ -89,4 +89,6 @@ public interface PostsMapper {
     int setScanNumber(@Param("scanNumber") int scanNumber);
 
     int getScanNumber(@Param("id") int id);
+
+    List<Posts> searchPosts(@Param("value") String value);
 }

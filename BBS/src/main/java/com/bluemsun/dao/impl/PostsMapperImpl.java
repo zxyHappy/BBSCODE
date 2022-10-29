@@ -134,4 +134,9 @@ public class PostsMapperImpl implements PostsMapper {
     public int getScanNumber(int id) {
         return postsMapper.getScanNumber(id);
     }
+
+    @Override
+    public List<Posts> searchPosts(String value) {
+        return postsMapper.searchPosts(value);
+    }
 }

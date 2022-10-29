@@ -40,6 +40,6 @@
     </update>
 
     <select id="searchBlock" resultType="com.bluemsun.entity.Block">
-        select * from bbs_block
+        select * from bbs_block where block_name like concat('%',#{value},'%')
     </select>
 </mapper>

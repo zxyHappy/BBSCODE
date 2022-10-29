@@ -24,4 +24,16 @@
         delete from bbs_follow where user_id = #{userId} and user_followed = #{userFollowed} and status = 1
     </delete>
 
+    <select id="getFollowBlock" parameterType="int" resultType="com.bluemsun.entity.Follow">
+        select * from bbs_follow where user_id = #{userId} and status = 2
+    </select>
+
+    <insert id="addFollowBlock" parameterType="com.bluemsun.entity.Follow">
+        insert into bbs_follow (user_id,block_id,status) values (#{userId},#{blockId},2)
+    </insert>
+
+    <select id="checkFollowBlock" parameterType="com.bluemsun.entity.Follow" resultType="com.bluemsun.entity.Follow">
+        select * from bbs_follow where user_id = #{userId} and block_id = #{blockId} and status = 2
+    </select>
+
 </mapper>

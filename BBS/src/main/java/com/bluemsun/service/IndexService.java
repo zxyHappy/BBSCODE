@@ -10,5 +10,6 @@ public interface IndexService {
      */
     Map<String,Object> getIndex(int userId);
 
-    Map<String,Object> indexSearch(String value);
+    Map<String,Object> indexSearch(String value,int userId);
+
 }

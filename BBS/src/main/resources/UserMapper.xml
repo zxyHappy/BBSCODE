@@ -44,4 +44,8 @@
         update bbs_user set nick_name = #{nickName} where id = #{id}
     </update>
 
+    <select id="searchUser" resultType="com.bluemsun.entity.User">
+        select * from bbs_user where nick_name like concat('%',#{value},'%')
+    </select>
+
 </mapper>

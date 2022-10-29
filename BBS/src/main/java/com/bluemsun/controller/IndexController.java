@@ -7,13 +7,12 @@ import com.bluemsun.service.BlockService;
 import com.bluemsun.service.IndexService;
 import com.bluemsun.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.Getter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -53,5 +52,11 @@ public class IndexController {
         return Result.ok().data(map);
     }
 
+    @GetMapping(value = "/search/{value}")
+    public Result search(HttpServletRequest request, @PathVariable String value){
+        int userId = (int) request.getAttribute("id");
+        Map<String,Object> map = indexService.indexSearch(value,userId);
+        return Result.ok().data(map);
+    }
 
 }

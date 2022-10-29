@@ -67,4 +67,6 @@ public interface UserMapper {
 
     int updateTelephone(@Param("telephone") String telephone,@Param("id") int id);
 
+    List<User> searchUser(@Param("value") String value);
+
 }

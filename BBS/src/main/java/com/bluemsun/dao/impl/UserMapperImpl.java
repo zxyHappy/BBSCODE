@@ -84,4 +84,9 @@ public class UserMapperImpl implements UserMapper {
 //        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         return userMapper.updateTelephone(telephone,id);
     }
+
+    @Override
+    public List<User> searchUser(String value) {
+        return userMapper.searchUser(value);
+    }
 }

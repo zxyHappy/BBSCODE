@@ -76,7 +76,7 @@ public class UserController {
         photo.transferTo(new File(finalPath));
         DecodedJWT decodedJWT =(DecodedJWT) request.getAttribute("decodedJWT");
         Claim id = decodedJWT.getClaim("id");
-        String url = DataUtil.URL+ "/photo/"+fileName;
+        String url = "http://43.140.247.80:8080"+ "/photo/"+fileName;
         String msg = userService.addUserPhoto(url,id.asInt());
         map.clear();
         map.put("msg",msg);

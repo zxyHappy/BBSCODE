@@ -70,4 +70,9 @@ public class BlockMapperImpl implements BlockMapper {
 //        BlockMapper blockMapper = sqlSession.getMapper(BlockMapper.class);
         return blockMapper.deletePostsNumber(id);
     }
+
+    @Override
+    public List<Block> searchBlock(String value) {
+        return blockMapper.searchBlock(value);
+    }
 }

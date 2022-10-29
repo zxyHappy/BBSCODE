@@ -1,5 +1,6 @@
 package com.bluemsun.dao.mapper;
 
+import com.bluemsun.entity.Block;
 import com.bluemsun.entity.Follow;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,10 @@ public interface FollowMapper {
     Follow checkFollowPeople(Follow follow);
 
     int deleteFollowPeople(Follow follow);
+
+    int addFollowBlock(Follow follow);
+
+    List<Follow> getFollowBlock(@Param("userId") int userId);
+
+    Follow checkFollowBlock(Follow follow);
 }
