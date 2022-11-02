@@ -61,7 +61,7 @@
     </update>
 
     <select id="getTop" resultType="com.bluemsun.entity.Posts">
-        select * from bbs_posts where block_id = #{blockId} and top_status = 1
+        select * from bbs_posts where block_id = #{blockId} and top_status = 1 and posts_status = 2
     </select>
 
     <select id="getPosts" resultType="com.bluemsun.entity.Posts">
@@ -82,7 +82,7 @@
     </update>
 
     <select id="getScanNumber" resultType="int">
-        select scan_number from bbs_posts where id = #{id} and posts_status = 2
+        select scan_number from bbs_posts where id = #{id}
     </select>
 
     <select id="searchPosts" resultType="com.bluemsun.entity.Posts">

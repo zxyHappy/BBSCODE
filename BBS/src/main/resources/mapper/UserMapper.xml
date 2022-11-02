@@ -48,4 +48,12 @@
         select * from bbs_user where nick_name like concat('%',#{value},'%')
     </select>
 
+    <update id="banUser">
+        update bbs_user set ban_status = 1 where id = #{userId}
+    </update>
+    
+    <update id="cancelBan">
+        update bbs_user set ban_status = 0 where id = #{userId}
+    </update>
+
 </mapper>

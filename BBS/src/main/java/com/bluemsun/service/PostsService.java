@@ -70,4 +70,8 @@ public interface PostsService {
      * @return
      */
     String confirmPosts(int postsId,String msg,int userId);
+
+    String setTopPosts(int postsId,int userId);
+
+    String cancelTop(int postsId,int userId);
 }

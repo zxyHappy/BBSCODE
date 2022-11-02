@@ -22,14 +22,14 @@
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="mapperLocations" >
             <array>
-                <value>classpath:UserMapper.xml</value>
-                <value>classpath:PostsMapper.xml</value>
-                <value>classpath:BlockMapper.xml</value>
-                <value>classpath:FileMapper.xml</value>
-                <value>classpath:CommentMapper.xml</value>
-                <value>classpath:LikeMapper.xml</value>
-                <value>classpath:FollowMapper.xml</value>
-                <value>classpath:InformMapper.xml</value>
+                <value>classpath:mapper/UserMapper.xml</value>
+                <value>classpath:mapper/PostsMapper.xml</value>
+                <value>classpath:mapper/BlockMapper.xml</value>
+                <value>classpath:mapper/FileMapper.xml</value>
+                <value>classpath:mapper/CommentMapper.xml</value>
+                <value>classpath:mapper/LikeMapper.xml</value>
+                <value>classpath:mapper/FollowMapper.xml</value>
+                <value>classpath:mapper/InformMapper.xml</value>
             </array>
         </property>
     </bean>
@@ -107,7 +107,7 @@
 
 <!--    <bean id="Follow" class="com.bluemsun.entity.Follow"/>-->
 
-
+    <bean id="Follow" class="com.bluemsun.entity.Follow"/>
 
 
 </beans>

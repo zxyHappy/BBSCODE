@@ -38,23 +38,25 @@ public class PostsServiceImpl implements PostsService {
     @Override
     public Map<String, Object> showPosts(int id,int userId) {
         Jedis jedis = RedisUtil.getJedis();
-        if(!jedis.hexists("posts_id_"+id,"scan_number1") ){
-            jedis.hset("posts_id_"+id,"scan_number1",String.valueOf(postsMapper.getScanNumber(id)));
-        }
-        if(!jedis.hexists("posts_id_"+id,"scan_number2") ){
-            jedis.hset("posts_id_"+id,"scan_number2",String.valueOf(postsMapper.getScanNumber(id)));
-        }
-        int scanNumber1 = Integer.parseInt(jedis.hget("posts_id_"+id,"scan_number1"));
-        int scanNumber2 = Integer.parseInt(jedis.hget("posts_id_"+id,"scan_number2"));
-        scanNumber2++;
-        if((scanNumber2-scanNumber1)*100 >= scanNumber1 ){
-            postsMapper.setScanNumber(scanNumber2,id);
-            jedis.hset("posts_id_"+id,"scan_number1",String.valueOf(scanNumber2));
-            jedis.hset("posts_id_"+id,"scan_number2",String.valueOf(scanNumber2));
-        }else {
-            jedis.hset("posts_id_"+id,"scan_number2",String.valueOf(scanNumber2));
-        }
         Posts posts = postsMapper.showPosts(id);
+        if(posts.getUserId() != userId){
+            if(!jedis.hexists("posts_id_"+id,"scan_number1") ){
+                jedis.hset("posts_id_"+id,"scan_number1",String.valueOf(postsMapper.getScanNumber(id)));
+            }
+            if(!jedis.hexists("posts_id_"+id,"scan_number2") ){
+                jedis.hset("posts_id_"+id,"scan_number2",String.valueOf(postsMapper.getScanNumber(id)));
+            }
+            int scanNumber1 = Integer.parseInt(jedis.hget("posts_id_"+id,"scan_number1"));
+            int scanNumber2 = Integer.parseInt(jedis.hget("posts_id_"+id,"scan_number2"));
+            scanNumber2++;
+            if((scanNumber2-scanNumber1)*100 >= scanNumber1 ){
+                postsMapper.setScanNumber(scanNumber2,id);
+                jedis.hset("posts_id_"+id,"scan_number1",String.valueOf(scanNumber2));
+                jedis.hset("posts_id_"+id,"scan_number2",String.valueOf(scanNumber2));
+            }else {
+                jedis.hset("posts_id_"+id,"scan_number2",String.valueOf(scanNumber2));
+            }
+        }
 //        posts.setLikeNumber(likeMapper.likeNumberPosts(id));
 //        if(userId != posts.getUserId()) postsMapper.addScan(id);
         if(!jedis.hexists("posts_id_"+id,"like_number")){
@@ -203,5 +205,21 @@ public class PostsServiceImpl implements PostsService {
             }
             return "帖子驳回失败";
         }
+    }
+
+    @Override
+    public String setTopPosts(int postsId, int userId) {
+        if(blockMapper.checkMaster(postsMapper.showPosts(postsId).getBlockId(),userId) == null) return "无操作权限";
+        int i = postsMapper.setTop(postsId);
+        if(i != 0) return "置顶成功";
+        return "置顶失败";
+    }
+
+    @Override
+    public String cancelTop(int postsId, int userId) {
+        if(blockMapper.checkMaster(postsMapper.showPosts(postsId).getBlockId(),userId) == null) return "无操作权限";
+        int i = postsMapper.deleteTop(postsId);
+        if(i != 0) return "取消成功";
+        return "取消失败";
     }
 }

@@ -86,4 +86,16 @@ public class PostsController {
         int userId = (int) request.getAttribute("id");
         return Result.ok().data(postsService.confirmPosts(postsId,msg,userId));
     }
+
+    @GetMapping(value = "/top/{postsId}")
+    public Result setTop(@PathVariable int postsId,HttpServletRequest request){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(postsService.setTopPosts(postsId,userId));
+    }
+
+    @GetMapping(value = "/top/cancel/{postsId}")
+    public Result cancelTop(@PathVariable int postsId,HttpServletRequest request){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(postsService.cancelTop(postsId,userId));
+    }
 }
