@@ -140,4 +140,22 @@ public class UserController {
         int userId = (int)request.getAttribute("id");
         return Result.ok().data("msg",followService.updateFollowPeople(userId,userFollowed));
     }
+
+    @GetMapping(value = "/update/follow/block/{blockId}")
+    public Result updateFollow(@PathVariable int blockId,HttpServletRequest request){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data("msg",followService.updateFollowBlock(userId,blockId));
+    }
+
+    @GetMapping(value = "/show/follow/block")
+    public Result showBlockFollowed(HttpServletRequest request){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(followService.getFollowBlock(userId));
+    }
+
+    @GetMapping(value = "/main/{userId}/{index}")
+    public Result getUserMessage(@PathVariable int userId,@PathVariable int index,HttpServletRequest request){
+        int id = (int) request.getAttribute("id");
+        return Result.ok().data(userService.getUserMessage(userId,index));
+    }
 }

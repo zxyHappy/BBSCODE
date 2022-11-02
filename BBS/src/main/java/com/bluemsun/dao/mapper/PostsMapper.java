@@ -86,9 +86,19 @@ public interface PostsMapper {
     int deletePosts(@Param("id") int id);
 
 
-    int setScanNumber(@Param("scanNumber") int scanNumber);
+    int setScanNumber(@Param("scanNumber") int scanNumber,@Param("postsId") int postsId);
 
     int getScanNumber(@Param("id") int id);
 
     List<Posts> searchPosts(@Param("value") String value);
+
+    List<Posts> showDrafts(@Param("userId") int userId);
+
+    int addDraft(Posts posts);
+
+    int setPostsStatus(@Param("postsId") int postsId);
+
+    int confirmPosts(@Param("postsId") int postsId);
+
+    int rejectPosts(@Param("postsId") int postsId);
 }

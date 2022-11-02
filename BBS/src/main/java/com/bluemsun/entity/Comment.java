@@ -1,6 +1,7 @@
 package com.bluemsun.entity;
 
 
+import java.util.List;
 
 public class Comment {
     private int id;
@@ -12,6 +13,15 @@ public class Comment {
     private int likeNumber;
     private int likeStatus;
     private int childCommentNumber;
+    private List<ChildComment> childCommentList;
+
+    public List<ChildComment> getChildCommentList() {
+        return childCommentList;
+    }
+
+    public void setChildCommentList(List<ChildComment> childCommentList) {
+        this.childCommentList = childCommentList;
+    }
 
     public int getChildCommentNumber() {
         return childCommentNumber;

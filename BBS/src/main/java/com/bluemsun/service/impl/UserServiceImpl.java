@@ -1,14 +1,18 @@
 package com.bluemsun.service.impl;
 
+import com.bluemsun.dao.mapper.FollowMapper;
 import com.bluemsun.dao.mapper.UserMapper;
+import com.bluemsun.entity.Follow;
 import com.bluemsun.entity.Page;
 import com.bluemsun.entity.Posts;
 import com.bluemsun.entity.User;
 import com.bluemsun.service.UserService;
 import com.bluemsun.util.JWTUtil;
+import com.bluemsun.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired UserMapper userMapper;
     @Autowired Page<Posts> postsPage;
+    @Autowired FollowMapper followMapper;
 
     @Override
     public String addUser(User user) {
@@ -47,18 +52,32 @@ public class UserServiceImpl implements UserService {
         String msg = "登录失败，请检查输入是否有误";
         User user1 = userMapper.getUserByName(idNumber);
         User user2 = userMapper.getUserByTelephone(idNumber);
+        Jedis jedis = RedisUtil.getJedis();
         if(user1!=null){
             if(user1.getPassword().equals(password)){
                 if(user1.getBanStatus()==1) msg = "账号已被封禁，无法登录";
-                else msg = JWTUtil.getToken(user1);
+                else {
+                    msg = JWTUtil.getToken(user1);
+                    if(jedis != null){
+                        jedis.set("user_token_"+user1.getId(),msg);
+                        jedis.expire("user_token_"+user1.getId(),7*24*60*60);
+                    }
+                }
             }
         }
         if(user2!=null){
             if(user2.getPassword().equals(password)){
                 if(user2.getBanStatus()==1) msg = "账号已被封禁，无法登录";
-                else msg = JWTUtil.getToken(user2);
+                else {
+                    msg = JWTUtil.getToken(user2);
+                    if(jedis != null){
+                        jedis.set("user_token_"+user2.getId(),msg);
+                        jedis.expire("user_token_"+user2.getId(),7*24*60*60);
+                    }
+                }
             }
         }
+        RedisUtil.closeJedis(jedis);
         return msg;
     }
 
@@ -129,5 +148,20 @@ public class UserServiceImpl implements UserService {
             user.setIdPhoto(null);
         }
         return user;
+    }
+
+    @Override
+    public Map<String, Object> getUserMessage(int userId, int index, int id) {
+        Follow follow = new Follow(id,userId);
+        Map<String,Object> map = new HashMap<>();
+        User user = userMapper.getUserById(id);
+        if(followMapper.checkFollowPeople(follow) == null) user.setFollowStatus(0);
+        else user.setFollowStatus(1);
+        Page<Posts> postsPage = getPostsByUser(id,index);
+        map.put("user",user);
+        map.put("postsNumber",postsPage.getTotalRecord());
+        map.put("totalPage",postsPage.getTotalPage());
+        map.put("postsList",postsPage.getList());
+        return map;
     }
 }

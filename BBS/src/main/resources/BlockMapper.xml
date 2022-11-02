@@ -42,4 +42,10 @@
     <select id="searchBlock" resultType="com.bluemsun.entity.Block">
         select * from bbs_block where block_name like concat('%',#{value},'%')
     </select>
+
+    <select id="checkMaster" resultType="com.bluemsun.entity.BlockMaster">
+        select * from bbs_master where block_id = #{blockId} and user_id = #{userId}
+    </select>
+
+
 </mapper>

@@ -8,6 +8,7 @@ import com.bluemsun.entity.ChildComment;
 import com.bluemsun.entity.Comment;
 import com.bluemsun.entity.Page;
 import com.bluemsun.service.CommentService;
+import com.bluemsun.service.InformService;
 import com.bluemsun.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
@@ -26,6 +27,7 @@ public class CommentServiceImpl implements CommentService {
     @Autowired LikeMapper likeMapper;
     @Autowired Page<Comment> oneCommentPage;
     @Autowired Page<ChildComment> twoCommentPage;
+    @Autowired InformService informService;
 
 
     @Override
@@ -33,6 +35,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setComment(userId,postsId,body);
         int i = commentMapper.addOneComment(comment);
         postsMapper.addComment(postsId);  //回复量增加
+        informService.addCommentInform(body,userId,postsMapper.showPosts(postsId).getUserId(),postsId);
         Jedis jedis = RedisUtil.getJedis();
         if(i != 0 && jedis != null) {
             jedis.set("one_id_"+ comment.getId(),"0");
@@ -52,6 +55,7 @@ public class CommentServiceImpl implements CommentService {
                 if(jedis.exists("one_id_" + comment.getId())){
                     comment.setLikeNumber(Integer.parseInt(jedis.get("one_id_" + comment.getId())));
                 }else comment.setLikeNumber(0);
+                comment.setChildCommentList(getTwoComment(comment.getId(),userId));
 //                if(jedis.hexists("user_id_"+userId,"one_id_"+comment.getId()) && "1".equals(jedis.hget("user_id_"+userId,"one_id_"+comment.getId()))){
 //                    comment.setlikeStatus(1);
 //                }else comment.setlikeStatus(0);
@@ -78,12 +82,15 @@ public class CommentServiceImpl implements CommentService {
 //                }else comment.setlikeStatus(0);
             }
         }
+        RedisUtil.closeJedis(jedis);
         return list;
     }
 
     @Override
     public String addTwoComment(ChildComment comment) {
-        int i = commentMapper.addTwoComment(childComment);
+        int i = commentMapper.addTwoComment(comment);
+        int postsId = commentMapper.getOneCommentById(commentMapper.getTwoCommentById(comment.getId()).getOneId()).getPostsId();
+        informService.addCommentInform(comment.getBody(),comment.getUseridSend(),comment.getUseridReply(),postsId);
         Jedis jedis = RedisUtil.getJedis();
         if(i != 0 && jedis != null) {
             jedis.set("two_id_"+comment.getId(),"0");

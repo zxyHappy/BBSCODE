@@ -22,7 +22,7 @@ public class JWTUtil {
     public static String getToken(Map<String,String> payload){
         // 指定token过期时间为7天
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 7);
+//        calendar.add(Calendar.DATE, 7);
 
         JWTCreator.Builder builder = JWT.create();
         // 构建payload
@@ -39,7 +39,7 @@ public class JWTUtil {
      */
     public static String getToken(User user){
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 7);
+//        calendar.add(Calendar.DATE, 7);
         JWTCreator.Builder builder = JWT.create();
         builder.withClaim("id",user.getId());
 //        builder.withClaim("userName",user.getUserName());
@@ -50,7 +50,6 @@ public class JWTUtil {
         String token = builder.withExpiresAt(calendar.getTime()).sign(Algorithm.HMAC256(SECRET));
         return token;
     }
-
 
     /**
      * 解析token

@@ -5,6 +5,7 @@ import com.bluemsun.entity.Result;
 import com.bluemsun.service.PostsService;
 import com.bluemsun.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -29,8 +30,10 @@ public class PostsController {
     public Result addPosts(@RequestBody Posts posts, HttpServletRequest request) throws JsonProcessingException {
         int id = (int)request.getAttribute("id");
         posts.setUserId(id);
-        String msg =  postsService.addPosts(posts);
-        return Result.ok().data("msg",msg);
+        map.clear();
+        map.put("msg",postsService.addPosts(posts));
+        map.put("postsId",posts.getId());
+        return Result.ok().data(map);
     }
 
     @GetMapping (value = "/show/{id}")
@@ -43,7 +46,7 @@ public class PostsController {
     }
 
     @RequestMapping(value = "/like/update/{postsId}")
-    public Result updatelike(HttpServletRequest request,@PathVariable int postsId) throws JsonProcessingException {
+    public Result updateLike(HttpServletRequest request,@PathVariable int postsId) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
         return Result.ok().data("msg",postsService.updateLike(postsId,userId));
     }
@@ -59,5 +62,28 @@ public class PostsController {
         int userId = (int) request.getAttribute("id");
         return Result.ok().data("msg",postsService.deletePosts(userId,id));
     }
-    
+
+    @GetMapping(value = "/show/drafts")
+    public Result showDrafts(HttpServletRequest request){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(postsService.showDrafts(userId));
+    }
+
+    @PostMapping(value = "/draft/add")
+    public Result addDraft(@RequestBody Posts posts,HttpServletRequest request){
+        int userId = (int) request.getAttribute("id");
+        posts.setUserId(userId);
+        return Result.ok().data(postsService.addDraft(posts));
+    }
+
+    @GetMapping(value = "/draft/send/{postsId}")
+    public Result sendPosts(@PathVariable int postsId){
+        return Result.ok().data(postsService.setPostsStatus(postsId));
+    }
+
+    @GetMapping(value = "/confirm/{postsId}/{msg}")
+    public Result confirmPosts(@PathVariable int postsId,@PathVariable String msg,HttpServletRequest request){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(postsService.confirmPosts(postsId,msg,userId));
+    }
 }

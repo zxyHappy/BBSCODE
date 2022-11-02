@@ -55,6 +55,9 @@ public class BlockServiceImpl implements BlockService {
             jedis.incr("block_id_"+blockId);
         }
         Block block = blockMapper.showBlockMessage(blockId);
+        if(jedis != null &&  jedis.hexists("user_id_"+userId,"block_id_"+blockId) && "1".equals(jedis.hget("user_id_"+userId,"block_id_"+blockId))) block.setFollowStatus(1);
+        else block.setFollowStatus(0);
+        block.setScanNumber(Integer.parseInt(jedis.get("block_id_"+blockId)));
         block.setTopList(postsMapper.getTop(blockId));
         List<BlockMaster> blockMasters = blockMapper.getBlockMaster(blockId);
         for(BlockMaster blockMaster:blockMasters){

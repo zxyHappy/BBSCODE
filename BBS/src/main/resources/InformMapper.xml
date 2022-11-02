@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.dao.mapper.InformMapper">
+
+    <insert id="addInform" parameterType="com.bluemsun.entity.Inform" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into bbs_inform (body,type,date,user_id,posts_id) values (#{body},#{type},now(),#{userId},#{postsId})
+    </insert>
+
+<!--    <select id="getInformId" resultType="int">-->
+<!--        select inform_id from bbs_inform_index where user_id = #{userId} order by id desc-->
+<!--    </select>-->
+
+<!--    <select id="getInform" resultType="com.bluemsun.entity.Inform">-->
+<!--        select * from bbs_inform where id = #{informId}-->
+<!--    </select>-->
+
+    <insert id="addInformIndex">
+        insert into bbs_inform_index (inform_id,user_id) values (#{informId},#{userId})
+    </insert>
+
+
+    <select id="getInform" resultType="com.bluemsun.entity.Inform">
+        select * from bbs_inform m,(select inform_id from bbs_inform_index where user_id = #{userId}) x where m.id =x.inform_id and type = #{type} order by id desc limit #{startIndex},6
+    </select>
+
+    <select id="getInformNumber" resultType="int">
+        select count(*) from bbs_inform m,(select inform_id from bbs_inform_index where user_id = #{userId}) x where m.id = x.inform_id and type = #{type}
+    </select>
+
+<!--    <select id="getInformByFollow" resultType="com.bluemsun.entity.Inform">-->
+<!--        select * from bbs_inform where id = (select inform_id from bbs_inform_index where user_id = #{userId}) and type = 'follow' order by confirm_status asc,id desc limit #{startIndex},6-->
+<!--    </select>-->
+
+<!--    <select id="getInformBySystem" resultType="com.bluemsun.entity.Inform">-->
+<!--        select * from bbs_inform where id = (select inform_id from bbs_inform_index where user_id = #{userId}) and type = 'system' order by confirm_status asc,id desc limit #{startIndex},6-->
+<!--    </select>-->
+
+    <delete id="deleteInform">
+        delete from bbs_inform where id = #{informId}
+    </delete>
+
+    <delete id="deleteInformIndex">
+        delete from bbs_inform_index where inform_id = #{informId} and user_id = #{userId}
+    </delete>
+    
+    <update id="confirmInform">
+        update bbs_inform set confirm_status = 1 where id = #{informId}
+    </update>
+
+    <select id="checkInform" resultType="com.bluemsun.entity.Inform">
+        select * from bbs_inform_index where user_id = #{userId} and inform_id = #{informId}
+    </select>
+
+</mapper>

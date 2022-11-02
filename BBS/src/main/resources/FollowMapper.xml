@@ -36,4 +36,15 @@
         select * from bbs_follow where user_id = #{userId} and block_id = #{blockId} and status = 2
     </select>
 
+    <delete id="deleteFollowBlock">
+        delete from bbs_follow where user_id = #{userId} and block_id = #{blockId} and status = 2
+    </delete>
+
+    <select id="getPersonByBlock" resultType="int">
+        select user_id from bbs_follow where status = 2 and block_id = #{blockId}
+    </select>
+
+    <select id="getPersonByPerson" resultType="int">
+        select user_id from bbs_follow where status = 1 and user_followed = #{userId}
+    </select>
 </mapper>

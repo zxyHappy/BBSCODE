@@ -126,8 +126,8 @@ public class PostsMapperImpl implements PostsMapper {
     }
 
     @Override
-    public int setScanNumber(int scanNumber) {
-        return postsMapper.setScanNumber(scanNumber);
+    public int setScanNumber(int scanNumber,int postsId) {
+        return postsMapper.setScanNumber(scanNumber,postsId);
     }
 
     @Override
@@ -138,5 +138,38 @@ public class PostsMapperImpl implements PostsMapper {
     @Override
     public List<Posts> searchPosts(String value) {
         return postsMapper.searchPosts(value);
+    }
+
+    @Override
+    public List<Posts> showDrafts(int userId) {
+        return postsMapper.showDrafts(userId);
+    }
+
+    @Override
+    public int addDraft(Posts posts) {
+        int i = postsMapper.addDraft(posts);
+        if(i != 0) return 1;
+        return 0;
+    }
+
+    @Override
+    public int setPostsStatus(int postsId) {
+        int i = postsMapper.setPostsStatus(postsId);
+        if(i != 0) return 1;
+        return 0;
+    }
+
+    @Override
+    public int confirmPosts(int postsId) {
+        int i = postsMapper.confirmPosts(postsId);
+        if(i != 0) return 1;
+        return 0;
+    }
+
+    @Override
+    public int rejectPosts(int postsId) {
+        int i = postsMapper.rejectPosts(postsId);
+        if(i != 0) return 1;
+        return 0;
     }
 }

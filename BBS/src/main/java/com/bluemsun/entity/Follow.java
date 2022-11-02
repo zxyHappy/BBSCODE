@@ -59,8 +59,12 @@ public class Follow {
         this.blockId = blockId;
     }
 
+    public Follow(){}
+
     public Follow(int userId, int userFollowed) {
         this.userId = userId;
         this.userFollowed = userFollowed;
     }
+
+
 }

@@ -61,4 +61,19 @@ public class FollowMapperImpl implements FollowMapper {
     public Follow checkFollowBlock(Follow follow) {
         return followMapper.checkFollowBlock(follow);
     }
+
+    @Override
+    public int deleteFollowBlock(int userId, int blockId) {
+        return followMapper.deleteFollowBlock(userId,blockId);
+    }
+
+    @Override
+    public List<Integer> getPersonByBlock(int blockId) {
+        return followMapper.getPersonByBlock(blockId);
+    }
+
+    @Override
+    public List<Integer> getPersonByPerson(int userId) {
+        return followMapper.getPersonByPerson(userId);
+    }
 }

@@ -12,6 +12,16 @@ public class Block {
 
     private String describe;
 
+    private int followStatus;
+
+    public int getFollowStatus() {
+        return followStatus;
+    }
+
+    public void setFollowStatus(int followStatus) {
+        this.followStatus = followStatus;
+    }
+
     public String getDescribe() {
         return describe;
     }

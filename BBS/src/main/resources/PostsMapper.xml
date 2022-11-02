@@ -5,7 +5,7 @@
 <mapper namespace="com.bluemsun.dao.mapper.PostsMapper">
 
     <insert id="addPosts" parameterType="com.bluemsun.entity.Posts" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into bbs_posts (block_id,user_id,date,head,body) values (#{blockId}, #{userId},now(), #{head}, #{body})
+        insert into bbs_posts (block_id,user_id,date,head,body,posts_status) values (#{blockId}, #{userId},now(), #{head}, #{body},1)
     </insert>
 
     <select id="showPosts" resultType="com.bluemsun.entity.Posts">
@@ -25,15 +25,15 @@
     </update>
 
     <select id="getTopPosts" resultType="com.bluemsun.entity.Posts">
-        select * from bbs_posts order by scan_number desc limit 0,10
+        select * from bbs_posts where posts_status = 2 order by scan_number desc limit 0,10
     </select>
 
     <select id="getHotPosts" resultType="com.bluemsun.entity.Posts">
-        select * from bbs_posts where block_id = #{blockId} order by scan_number desc limit 0,5
+        select * from bbs_posts where block_id = #{blockId} and posts_status = 2 order by scan_number desc limit 0,5
     </select>
 
     <select id="getNumberByBlock" resultType="int">
-        select count(*) from bbs_posts where block_id = #{blockId}
+        select count(*) from bbs_posts where block_id = #{blockId} and posts_status = 2
     </select>
 
     <update id="addLike">
@@ -65,7 +65,7 @@
     </select>
 
     <select id="getPosts" resultType="com.bluemsun.entity.Posts">
-      select * from bbs_posts where block_id = #{blockId} and top_status = 0 order by id desc limit #{startIndex},10
+      select * from bbs_posts where block_id = #{blockId} and top_status = 0 and posts_status = 2 order by id desc limit #{startIndex},10
     </select>
 
 
@@ -78,15 +78,36 @@
     </delete>
 
     <update id="setScanNumber">
-        update bbs_posts set scan_number = #{scanNumber}
+        update bbs_posts set scan_number = #{scanNumber} where id = #{postsId}
     </update>
 
     <select id="getScanNumber" resultType="int">
-        select scan_number from bbs_posts where id = #{id}
+        select scan_number from bbs_posts where id = #{id} and posts_status = 2
     </select>
 
     <select id="searchPosts" resultType="com.bluemsun.entity.Posts">
-        select * from bbs_posts where head like concat('%',#{value},'%') or body like concat('%',#{value},'%')
+        select * from bbs_posts where (head like concat('%',#{value},'%') or body like concat('%',#{value},'%')) and posts_status = 2
     </select>
+    
+    <select id="showDrafts" resultType="com.bluemsun.entity.Posts">
+        select * from bbs_posts where posts_status = 0 and user_id = #{userId}
+    </select>
+
+    <insert id="addDraft" parameterType="com.bluemsun.entity.Posts" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into bbs_posts (block_id,user_id,date,head,body,posts_status) values (#{blockId}, #{userId},now(), #{head}, #{body},0)
+    </insert>
+
+    <update id="setPostsStatus">
+        update bbs_posts set posts_status = 1 where id = #{postsId}
+    </update>
+
+   <update id="confirmPosts">
+       update bbs_posts set posts_status = 2 where id = #{postsId}
+   </update>
+
+    <update id="rejectPosts">
+        update bbs_posts set posts_status = 0 where id = #{postsId}
+    </update>
+
 
 </mapper>

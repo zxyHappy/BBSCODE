@@ -2,6 +2,7 @@ package com.bluemsun.service.impl;
 
 import com.bluemsun.dao.mapper.*;
 import com.bluemsun.entity.*;
+import com.bluemsun.service.InformService;
 import com.bluemsun.service.PostsService;
 import com.bluemsun.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,15 @@ public class PostsServiceImpl implements PostsService {
     @Autowired FileMapper fileMapper;
     @Autowired FollowMapper followMapper;
     @Autowired CommentMapper commentMapper;
+    @Autowired InformService informService;
 
 
     @Override
     public String addPosts(Posts posts) {
         blockMapper.addPostsNumber(posts.getBlockId());
         if(postsMapper.addPosts(posts) == 1) {
+            informService.MasterConfirmInform(posts.getId());
+            informService.confirmPostsForUser(posts.getUserId(),posts.getId());
             return "发帖成功";
         }
         return "发帖失败";
@@ -33,7 +37,6 @@ public class PostsServiceImpl implements PostsService {
 
     @Override
     public Map<String, Object> showPosts(int id,int userId) {
-//        postsMapper.addScan(id);
         Jedis jedis = RedisUtil.getJedis();
         if(!jedis.hexists("posts_id_"+id,"scan_number1") ){
             jedis.hset("posts_id_"+id,"scan_number1",String.valueOf(postsMapper.getScanNumber(id)));
@@ -45,7 +48,7 @@ public class PostsServiceImpl implements PostsService {
         int scanNumber2 = Integer.parseInt(jedis.hget("posts_id_"+id,"scan_number2"));
         scanNumber2++;
         if((scanNumber2-scanNumber1)*100 >= scanNumber1 ){
-            postsMapper.setScanNumber(scanNumber2);
+            postsMapper.setScanNumber(scanNumber2,id);
             jedis.hset("posts_id_"+id,"scan_number1",String.valueOf(scanNumber2));
             jedis.hset("posts_id_"+id,"scan_number2",String.valueOf(scanNumber2));
         }else {
@@ -157,5 +160,48 @@ public class PostsServiceImpl implements PostsService {
             return "删除失败";
         }
         return "删除失败";
+    }
+
+
+    @Override
+    public List<Posts> showDrafts(int userId) {
+        return postsMapper.showDrafts(userId);
+    }
+
+    @Override
+    public String addDraft(Posts posts) {
+        int i = postsMapper.addDraft(posts);
+        if(i != 0) return "已加入草稿箱";
+        return "加入草稿箱失败";
+    }
+
+    @Override
+    public String setPostsStatus(int postsId) {
+        int i = postsMapper.setPostsStatus(postsId);
+        if(i != 0) return "发帖成功";
+        return "发帖失败";
+    }
+
+    @Override
+    public String confirmPosts(int postsId,String msg,int userId) {
+        if(blockMapper.checkMaster(postsMapper.showPosts(postsId).getBlockId(),userId) == null) return "无操作权限";
+        if("accept".equals(msg)){
+            int i = postsMapper.confirmPosts(postsId);
+            int id = postsMapper.showPosts(postsId).getUserId();
+            if(i == 1) {
+                informService.confirmPostsInform(postsId,id,1);
+                informService.addPostsInformByBlock(postsId,id);
+                informService.addPostsInformByPerson(postsId,id);
+                return "帖子已通过";
+            }
+            return "帖子通过失败";
+        }else {
+            int i = postsMapper.rejectPosts(postsId);
+            if(i == 1) {
+                informService.confirmPostsInform(postsId,postsMapper.showPosts(postsId).getUserId(),0);
+                return "帖子已驳回";
+            }
+            return "帖子驳回失败";
+        }
     }
 }

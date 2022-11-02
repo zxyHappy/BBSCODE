@@ -33,4 +33,10 @@ public interface FollowMapper {
     List<Follow> getFollowBlock(@Param("userId") int userId);
 
     Follow checkFollowBlock(Follow follow);
+
+    int deleteFollowBlock(@Param("userId") int userId,@Param("blockId") int blockId);
+
+    List<Integer> getPersonByBlock(@Param("blockId") int blockId);
+
+    List<Integer> getPersonByPerson(@Param("userId") int userId);
 }

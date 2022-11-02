@@ -3,6 +3,7 @@ package com.bluemsun.dao.mapper;
 import com.bluemsun.entity.Block;
 import com.bluemsun.entity.BlockMaster;
 import org.apache.ibatis.annotations.Param;
+import org.mybatis.spring.SqlSessionTemplate;
 
 import java.util.List;
 
@@ -50,4 +51,6 @@ public interface BlockMapper {
     int deletePostsNumber(@Param("id") int id);
 
     List<Block> searchBlock(@Param("value") String value);
+
+    BlockMaster checkMaster(@Param("blockId") int blockId,@Param("userId") int userId);
 }

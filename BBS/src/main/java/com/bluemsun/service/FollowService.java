@@ -24,4 +24,7 @@ public interface FollowService {
      */
     String updateFollowPeople(int userId,int userFollowed);
 
+    List<Follow> getFollowBlock(int userId);
+
+    String updateFollowBlock(int userId,int blockId);
 }

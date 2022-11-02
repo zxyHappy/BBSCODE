@@ -62,4 +62,6 @@ public interface UserService {
     String updateTelephone(String telephone,int id);
 
     User getUserById(int id);
+
+    Map<String,Object> getUserMessage(int userId,int index,int id);
 }

@@ -75,4 +75,9 @@ public class BlockMapperImpl implements BlockMapper {
     public List<Block> searchBlock(String value) {
         return blockMapper.searchBlock(value);
     }
+
+    @Override
+    public BlockMaster checkMaster(int blockId, int userId) {
+        return blockMapper.checkMaster(blockId,userId);
+    }
 }
