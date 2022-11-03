@@ -89,4 +89,24 @@ public class UserMapperImpl implements UserMapper {
     public List<User> searchUser(String value) {
         return userMapper.searchUser(value);
     }
+
+    @Override
+    public int banUser(int userId) {
+        return userMapper.banUser(userId);
+    }
+
+    @Override
+    public int cancelBan(int userId) {
+        return userMapper.cancelBan(userId);
+    }
+
+    @Override
+    public int insertMaster(int blockId, int userId) {
+        return userMapper.insertMaster(blockId,userId);
+    }
+
+    @Override
+    public int cancelMaster(int blockId, int userId) {
+        return userMapper.cancelMaster(blockId,userId);
+    }
 }

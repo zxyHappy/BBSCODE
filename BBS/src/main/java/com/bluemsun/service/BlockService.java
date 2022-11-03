@@ -13,7 +13,7 @@ public interface BlockService {
      * @param blockName
      * @return
      */
-    String addBlock(String blockName,String describe);
+    String addBlock(String blockName,String describe,int userId);
 
     /**
      * 板块页面展示所有板块
@@ -35,4 +35,6 @@ public interface BlockService {
      * @return
      */
     List<Posts> showPostsPage(int blockId,int index);
+
+    String deleteBlock(int blockId,int userId);
 }

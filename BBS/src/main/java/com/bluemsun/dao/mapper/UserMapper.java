@@ -69,4 +69,12 @@ public interface UserMapper {
 
     List<User> searchUser(@Param("value") String value);
 
+    int banUser(@Param("userId") int userId);
+
+    int cancelBan(@Param("userId") int userId);
+
+    int insertMaster(@Param("blockId") int blockId,@Param("userId") int userId);
+
+    int cancelMaster(@Param("blockId") int blockId,@Param("userId") int userId);
+
 }

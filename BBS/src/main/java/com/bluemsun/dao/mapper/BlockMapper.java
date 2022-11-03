@@ -53,4 +53,6 @@ public interface BlockMapper {
     List<Block> searchBlock(@Param("value") String value);
 
     BlockMaster checkMaster(@Param("blockId") int blockId,@Param("userId") int userId);
+
+    int deleteBlock(@Param("blockId") int blockId);
 }

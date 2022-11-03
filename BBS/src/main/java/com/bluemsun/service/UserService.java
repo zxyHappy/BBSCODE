@@ -64,4 +64,14 @@ public interface UserService {
     User getUserById(int id);
 
     Map<String,Object> getUserMessage(int userId,int index,int id);
+
+    /**
+     * 用户封禁/解封
+     * @param userId 要被操作的用户id
+     * @param id 当前登录的用户id
+     * @return
+     */
+    String updateUserStatus(int userId,int id);
+
+    String updateMaster(int userId,int blockId,int id);
 }

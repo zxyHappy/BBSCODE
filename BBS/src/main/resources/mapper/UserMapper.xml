@@ -56,4 +56,12 @@
         update bbs_user set ban_status = 0 where id = #{userId}
     </update>
 
+    <insert id="insertMaster">
+        insert into bbs_master (block_id,user_id) values (#{blockId},#{userId})
+    </insert>
+
+    <update id="cancelMaster">
+        delete from bbs_master where user_id = #{userId} and block_id = #{blockId}
+    </update>
+
 </mapper>

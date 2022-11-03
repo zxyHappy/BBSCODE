@@ -15,6 +15,10 @@
         insert into bbs_block (block_name,describe) values (#{blockName},#{describe})
     </insert>
 
+    <delete id="deleteBlock">
+        delete from bbs_block where id = #{blockId}
+    </delete>
+
     <select id="showBlocks" resultType="com.bluemsun.entity.Block">
         select * from bbs_block
     </select>

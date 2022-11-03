@@ -102,6 +102,7 @@ public class PostsServiceImpl implements PostsService {
         map.put("blockName",blockName);
         map.put("commentList",commentList);
         map.put("fileList",fileList);
+        RedisUtil.closeJedis(jedis);
         return map;
     }
 

@@ -7,7 +7,6 @@ public class User {
     private String password;
     private int banStatus;
     private String telephone;
-    private int masterStatus;
     private String idPhoto;
 
     private int followStatus;
@@ -23,14 +22,13 @@ public class User {
     public User() {
     }
 
-    public User(int id, String nickName, String userName, String password, int banStatus, String telephone, int masterStatus) {
+    public User(int id, String nickName, String userName, String password, int banStatus, String telephone) {
         this.id = id;
         this.nickName = nickName;
         this.userName = userName;
         this.password = password;
         this.banStatus = banStatus;
         this.telephone = telephone;
-        this.masterStatus = masterStatus;
     }
 
     public String getIdPhoto() {
@@ -89,11 +87,4 @@ public class User {
         this.telephone = telephone;
     }
 
-    public int getMasterStatus() {
-        return masterStatus;
-    }
-
-    public void setMasterStatus(int masterStatus) {
-        this.masterStatus = masterStatus;
-    }
 }

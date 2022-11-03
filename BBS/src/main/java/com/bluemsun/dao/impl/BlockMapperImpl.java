@@ -80,4 +80,9 @@ public class BlockMapperImpl implements BlockMapper {
     public BlockMaster checkMaster(int blockId, int userId) {
         return blockMapper.checkMaster(blockId,userId);
     }
+
+    @Override
+    public int deleteBlock(int blockId) {
+        return blockMapper.deleteBlock(blockId);
+    }
 }

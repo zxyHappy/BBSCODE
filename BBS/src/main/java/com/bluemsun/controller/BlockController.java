@@ -1,6 +1,7 @@
 package com.bluemsun.controller;
 
 
+import com.bluemsun.entity.Block;
 import com.bluemsun.entity.Result;
 import com.bluemsun.service.BlockService;
 import com.bluemsun.service.UserService;
@@ -38,6 +39,16 @@ public class BlockController {
           return Result.ok().data("page",blockService.showPostsPage(id,index));
     }
 
+    @PostMapping(value = "/add")
+    public Result addBlock(HttpServletRequest request, @RequestBody Block block){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(blockService.addBlock(block.getBlockName(),block.getDescribe(),userId));
+    }
 
+    @GetMapping(value = "/delete/{blockId}")
+    public Result deleteBlock(HttpServletRequest request,@PathVariable int blockId){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(blockService.deleteBlock(blockId,userId));
+    }
 
 }

@@ -60,7 +60,6 @@
 
     <bean id="User" class="com.bluemsun.entity.User">
         <property name="banStatus" value="0"/>
-        <property name="masterStatus" value="0"/>
     </bean>
 
     <bean id="myPage" class="com.bluemsun.entity.Page"/>

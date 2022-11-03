@@ -1,5 +1,6 @@
 package com.bluemsun.service.impl;
 
+import com.bluemsun.dao.mapper.BlockMapper;
 import com.bluemsun.dao.mapper.FollowMapper;
 import com.bluemsun.dao.mapper.UserMapper;
 import com.bluemsun.entity.Follow;
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService {
     @Autowired UserMapper userMapper;
     @Autowired Page<Posts> postsPage;
     @Autowired FollowMapper followMapper;
+    @Autowired BlockMapper blockMapper;
 
     @Override
     public String addUser(User user) {
@@ -163,5 +165,34 @@ public class UserServiceImpl implements UserService {
         map.put("totalPage",postsPage.getTotalPage());
         map.put("postsList",postsPage.getList());
         return map;
+    }
+
+    @Override
+    public String updateUserStatus(int userId, int id) {
+        if(id != 1 || userId == 1) return "无操作权限";
+        User user = userMapper.getUserById(userId);
+        if(user.getBanStatus() == 1) {
+            int i =  userMapper.cancelBan(userId);
+            if(i != 0) return "解封成功";
+            return "解封失败";
+        }else {
+            int i = userMapper.banUser(userId);
+            if(i != 0) return "封禁成功";
+            return "封禁失败";
+        }
+    }
+
+    @Override
+    public String updateMaster(int userId, int blockId, int id) {
+        if(id != 1) return "无权限操作";
+        if(blockMapper.checkMaster(blockId,userId) == null){
+            int i = userMapper.insertMaster(blockId,userId);
+            if(i != 0) return "添加版主成功";
+            return "添加版主失败";
+        }else {
+            int i = userMapper.cancelMaster(blockId,userId);
+            if(i != 0) return "取消版主成功";
+            return "取消版主失败";
+        }
     }
 }

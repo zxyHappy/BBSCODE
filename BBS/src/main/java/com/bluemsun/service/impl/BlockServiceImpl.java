@@ -29,7 +29,8 @@ public class BlockServiceImpl implements BlockService {
     @Autowired Page<Posts> postsPage;
 
     @Override
-    public String addBlock(String blockName,String describe) {
+    public String addBlock(String blockName,String describe,int userId) {
+        if(userId != 1) return "无操作权限";
         int i = blockMapper.addBlock(blockName,describe);
         if(i != 0) return "添加成功";
         return "添加失败";
@@ -93,5 +94,13 @@ public class BlockServiceImpl implements BlockService {
                 }
             }
         }
+    }
+
+    @Override
+    public String deleteBlock(int blockId,int userId) {
+        if(userId != 1) return "无操作权限";
+        int i = blockMapper.deleteBlock(blockId);
+        if(i != 0) return "删除成功";
+        return "删除失败";
     }
 }

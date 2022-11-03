@@ -158,4 +158,16 @@ public class UserController {
         int id = (int) request.getAttribute("id");
         return Result.ok().data(userService.getUserMessage(userId,index));
     }
+
+    @GetMapping(value = "/update/ban/{userId}")
+    public Result updateBanStatus(HttpServletRequest request,@PathVariable int userId){
+        int id = (int) request.getAttribute("id");
+        return Result.ok().data(userService.updateUserStatus(userId,id));
+    }
+
+    @GetMapping(value = "/update/master/{userId}/{blockId}")
+    public Result updateMaster(HttpServletRequest request,@PathVariable int userId, @PathVariable int blockId){
+        int id = (int) request.getAttribute("id");
+        return Result.ok().data(userService.updateMaster(userId,blockId,id));
+    }
 }
