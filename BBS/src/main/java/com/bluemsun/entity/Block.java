@@ -10,7 +10,7 @@ public class Block {
     private int scanNumber;
     List<Posts> topList;
 
-    private String describe;
+    private String blockDescribe;
 
     private int followStatus;
 
@@ -22,12 +22,12 @@ public class Block {
         this.followStatus = followStatus;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getBlockDescribe() {
+        return blockDescribe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setBlockDescribe(String blockDescribe) {
+        this.blockDescribe = blockDescribe;
     }
 
     public List<Posts> getTopList() {

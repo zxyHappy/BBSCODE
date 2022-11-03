@@ -42,7 +42,7 @@ public class BlockController {
     @PostMapping(value = "/add")
     public Result addBlock(HttpServletRequest request, @RequestBody Block block){
         int userId = (int) request.getAttribute("id");
-        return Result.ok().data(blockService.addBlock(block.getBlockName(),block.getDescribe(),userId));
+        return Result.ok().data(blockService.addBlock(block.getBlockName(),block.getBlockDescribe(),userId));
     }
 
     @GetMapping(value = "/delete/{blockId}")

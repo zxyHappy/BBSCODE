@@ -156,7 +156,7 @@ public class UserController {
     @GetMapping(value = "/main/{userId}/{index}")
     public Result getUserMessage(@PathVariable int userId,@PathVariable int index,HttpServletRequest request){
         int id = (int) request.getAttribute("id");
-        return Result.ok().data(userService.getUserMessage(userId,index));
+        return Result.ok().data(userService.getUserMessage(userId,index,id));
     }
 
     @GetMapping(value = "/update/ban/{userId}")

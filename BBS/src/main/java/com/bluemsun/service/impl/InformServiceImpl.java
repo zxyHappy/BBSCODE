@@ -103,13 +103,14 @@ public class InformServiceImpl implements InformService {
     }
 
     @Override
-    public List<Inform> showInform(int userId,int index,String type) {
+    public Page<Inform> showInform(int userId,int index,String type) {
         informPage.setPage(index,6,informMapper.getInformNumber(userId,type));
         List<Inform> list = informMapper.getInform(userId,type,informPage.getStartIndex());
         for(Inform inform:list){
             if(inform.getConfirmStatus() == 0) informMapper.confirmInform(inform.getId());
         }
-        return list;
+        informPage.setList(list);
+        return informPage;
     }
 
     @Override

@@ -36,6 +36,7 @@
         select count(*) from bbs_posts where block_id = #{blockId} and posts_status = 2
     </select>
 
+
     <update id="addLike">
         update bbs_posts set like_number = like_number+1 where id = #{id}
     </update>

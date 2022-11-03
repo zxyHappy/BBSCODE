@@ -108,5 +108,8 @@
 
     <bean id="Follow" class="com.bluemsun.entity.Follow"/>
 
+    <bean id="log" class="com.bluemsun.log.Log"/>
+    <bean id="afterLog" class="com.bluemsun.log.AfterLog"/>
+    <bean id="exceptionLog" class="com.bluemsun.log.ExceptionLog"/>
 
 </beans>

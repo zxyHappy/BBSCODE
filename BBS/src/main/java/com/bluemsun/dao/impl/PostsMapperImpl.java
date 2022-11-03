@@ -2,6 +2,7 @@ package com.bluemsun.dao.impl;
 
 import com.bluemsun.dao.mapper.PostsMapper;
 import com.bluemsun.entity.Comment;
+import com.bluemsun.entity.Page;
 import com.bluemsun.entity.Posts;
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -110,6 +111,7 @@ public class PostsMapperImpl implements PostsMapper {
     @Override
     public List<Posts> getPosts(int blockId, int startIndex) {
 //        PostsMapper postsMapper = sqlSession.getMapper(PostsMapper.class);
+
         return postsMapper.getPosts(blockId,startIndex);
     }
 

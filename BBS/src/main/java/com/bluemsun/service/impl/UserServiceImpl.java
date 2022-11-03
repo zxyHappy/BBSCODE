@@ -11,12 +11,9 @@ import com.bluemsun.service.UserService;
 import com.bluemsun.util.JWTUtil;
 import com.bluemsun.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UserServiceImpl implements UserService {

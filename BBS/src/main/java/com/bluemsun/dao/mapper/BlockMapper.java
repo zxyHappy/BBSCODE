@@ -28,7 +28,7 @@ public interface BlockMapper {
      * @param describe 描述
      * @return
      */
-    int addBlock(@Param("blockName") String blockName,@Param("describe") String describe);
+    int addBlock(@Param("blockName") String blockName,@Param("blockDescribe") String describe);
 
     /**
      * 展示板块

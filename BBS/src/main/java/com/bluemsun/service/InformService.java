@@ -2,6 +2,7 @@ package com.bluemsun.service;
 
 import com.bluemsun.dao.mapper.UserMapper;
 import com.bluemsun.entity.Inform;
+import com.bluemsun.entity.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -80,5 +81,5 @@ public interface InformService {
      * @param type 通知类型
      * @return
      */
-    List<Inform> showInform(int userId, int index, String type);
+    Page<Inform> showInform(int userId, int index, String type);
 }

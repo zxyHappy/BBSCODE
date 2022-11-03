@@ -39,7 +39,9 @@ public interface UserService {
      * @param index 第几页
      * @return
      */
-    Map<String,Object> getUserMessage(int id,int index);
+    Map<String,Object> getUserMessage(int id,int index,int userId);
+
+    Map<String, Object> getUserMessage(int id, int index);
 
     /**
      * 获得某一页用户帖子列表
@@ -63,7 +65,6 @@ public interface UserService {
 
     User getUserById(int id);
 
-    Map<String,Object> getUserMessage(int userId,int index,int id);
 
     /**
      * 用户封禁/解封

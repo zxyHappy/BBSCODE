@@ -12,7 +12,7 @@
     </select>
 
     <insert id="addBlock" parameterType="com.bluemsun.entity.Block">
-        insert into bbs_block (block_name,describe) values (#{blockName},#{describe})
+        insert into bbs_block (block_name,block_describe) values (#{blockName},#{blockDescribe})
     </insert>
 
     <delete id="deleteBlock">
