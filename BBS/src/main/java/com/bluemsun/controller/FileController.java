@@ -49,7 +49,7 @@ public class FileController {
         FileService fileService = (FileService) context.getBean("FileService");
         DecodedJWT decodedJWT = (DecodedJWT) request.getAttribute("decodedJWT");
         Claim userId = decodedJWT.getClaim("id");
-        String url = "http://43.140.247.80:8080"+ "/showfile/"+fileName;
+        String url = DataUtil.URL+ "/showfile/"+fileName;
         file1.setUrl(url);
         file1.setUserId(userId.asInt());
         file1.setPostsId(postsId);
