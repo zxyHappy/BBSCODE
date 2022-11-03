@@ -21,7 +21,7 @@ public class InformServiceImpl implements InformService {
     @Override
     public String addCommentInform(String value, int userIdSend, int userIdReply, int postsId) {
         String nickName = userMapper.getUserById(userIdSend).getNickName();
-        String body = "用户："+nickName+"回复了您："+value;
+        String body = nickName+"：回复了您："+value;
         Inform inform = new Inform(userIdSend,postsId,body,"comment");
         informMapper.addInform(inform);
         informMapper.addInformIndex(inform.getId(),userIdReply);
@@ -31,7 +31,7 @@ public class InformServiceImpl implements InformService {
     @Override
     public String addFollowInform(int userId, int userIdFollowed) {
         String nickName = userMapper.getUserById(userId).getNickName();
-        String body = "用户："+nickName+"关注了您";
+        String body = nickName+"：关注了您";
         Inform inform = new Inform(userId,body,"follow");
         informMapper.addInform(inform);
         informMapper.addInformIndex(inform.getId(),userIdFollowed);
