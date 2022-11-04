@@ -112,4 +112,10 @@
     <bean id="afterLog" class="com.bluemsun.log.AfterLog"/>
     <bean id="exceptionLog" class="com.bluemsun.log.ExceptionLog"/>
 
+    <bean id="UserVO" class="com.bluemsun.entity.vo.UserVO"/>
+    <bean id="PostsVO" class="com.bluemsun.entity.vo.PostsVO"/>
+    <bean id="BlockVO" class="com.bluemsun.entity.vo.BlockVO"/>
+    <bean id="FileVo" class="com.bluemsun.entity.vo.FileVO"/>
+    <bean id="InformVO" class="com.bluemsun.entity.vo.InformVO"/>
+
 </beans>

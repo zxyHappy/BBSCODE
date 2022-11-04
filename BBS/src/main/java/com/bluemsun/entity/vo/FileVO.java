@@ -6,6 +6,9 @@ public class FileVO {
     private String url;
     private int fileId;
 
+    public FileVO() {
+    }
+
     public FileVO(String msg, String url, int fileId) {
         this.msg = msg;
         this.url = url;

@@ -82,4 +82,6 @@ public interface InformService {
      * @return
      */
     Page<Inform> showInform(int userId, int index, String type);
+
+    String MasterInform(int userId,int blockId,int status);
 }

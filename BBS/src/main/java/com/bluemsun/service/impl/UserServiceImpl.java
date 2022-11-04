@@ -7,6 +7,7 @@ import com.bluemsun.entity.Follow;
 import com.bluemsun.entity.Page;
 import com.bluemsun.entity.Posts;
 import com.bluemsun.entity.User;
+import com.bluemsun.service.InformService;
 import com.bluemsun.service.UserService;
 import com.bluemsun.util.JWTUtil;
 import com.bluemsun.util.RedisUtil;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
     @Autowired Page<Posts> postsPage;
     @Autowired FollowMapper followMapper;
     @Autowired BlockMapper blockMapper;
+    @Autowired InformService informService;
 
     @Override
     public String addUser(User user) {
@@ -184,10 +186,12 @@ public class UserServiceImpl implements UserService {
         if(id != 1) return "无权限操作";
         if(blockMapper.checkMaster(blockId,userId) == null){
             int i = userMapper.insertMaster(blockId,userId);
+            informService.MasterInform(userId,blockId,1);
             if(i != 0) return "添加版主成功";
             return "添加版主失败";
         }else {
             int i = userMapper.cancelMaster(blockId,userId);
+            informService.MasterInform(userId,blockId,0);
             if(i != 0) return "取消版主成功";
             return "取消版主失败";
         }

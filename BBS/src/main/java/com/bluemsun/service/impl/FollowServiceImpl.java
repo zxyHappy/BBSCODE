@@ -35,6 +35,9 @@ public class FollowServiceImpl implements FollowService {
             List<Follow> list =  followMapper.getFans(userId);
             for(Follow follow:list){
                 follow.setUser(userMapper.getUserById(follow.getUserId()));
+                if(followMapper.checkFollowPeople(new Follow(follow.getUserFollowed(),follow.getUserId())) == null){
+                    follow.getUser().setFollowStatus(0);
+                }else follow.getUser().setFollowStatus(1);
             }
             return list;
         }

@@ -1,8 +1,11 @@
 package com.bluemsun.entity;
 
 
+import com.bluemsun.entity.vo.UserVO;
 import lombok.Data;
+import lombok.SneakyThrows;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +22,7 @@ public class Result {
     private String message;
 
 
-    private Object data = new Object();
+    private Map data;
 
     private Result(){}
 
@@ -74,10 +77,25 @@ public class Result {
         return this;
     }
 
-    public Result data(Object o){
-        this.setData(o);
+    public Result data(String msg){
+        Map<String,Object> map = new HashMap<>();
+        map.put("msg",msg);
+        this.setData(map);
         return this;
     }
+
+    @SneakyThrows
+    public Result data(Object object){
+        Map<String, Object> map = new HashMap<>();
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            map.put(field.getName(), field.get(object));
+        }
+        this.setData(map);
+        return this;
+    }
+
 
 
 }

@@ -123,4 +123,19 @@ public class InformServiceImpl implements InformService {
         informMapper.addInformIndex(inform.getId(),userId);
         return "已通知";
     }
+
+    @Override
+    public String MasterInform(int userId, int blockId,int status) {
+        String blockName = blockMapper.getBlockName(blockId);
+        String body;
+        if(status == 1){
+            body = "您已被设为板块："+blockName+"的版主";
+        }else {
+            body = "您的版主身份已被取消，相关板块："+blockName;
+        }
+        Inform inform = new Inform(body,"system");
+        informMapper.addInform(inform);
+        informMapper.addInformIndex(inform.getId(),userId);
+        return "已通知";
+    }
 }
