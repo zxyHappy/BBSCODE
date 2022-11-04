@@ -2,6 +2,7 @@ package com.bluemsun.controller;
 
 import com.bluemsun.entity.Posts;
 import com.bluemsun.entity.Result;
+import com.bluemsun.entity.vo.PostsVO;
 import com.bluemsun.service.PostsService;
 import com.bluemsun.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,10 +31,8 @@ public class PostsController {
     public Result addPosts(@RequestBody Posts posts, HttpServletRequest request) throws JsonProcessingException {
         int id = (int)request.getAttribute("id");
         posts.setUserId(id);
-        map.clear();
-        map.put("msg",postsService.addPosts(posts));
-        map.put("postsId",posts.getId());
-        return Result.ok().data(map);
+        PostsVO postsVO  = new PostsVO(postsService.addPosts(posts),posts.getId());
+        return Result.ok().data(postsVO);
     }
 
     @GetMapping (value = "/show/{id}")

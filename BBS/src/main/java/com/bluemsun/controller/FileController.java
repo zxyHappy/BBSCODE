@@ -4,6 +4,7 @@ package com.bluemsun.controller;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bluemsun.entity.Result;
+import com.bluemsun.entity.vo.FileVO;
 import com.bluemsun.service.FileService;
 import com.bluemsun.util.DataUtil;
 import org.springframework.context.ApplicationContext;
@@ -54,11 +55,8 @@ public class FileController {
         file1.setUserId(userId.asInt());
         file1.setPostsId(postsId);
         String msg = fileService.addFile(file1);
-        Map<String,Object> m = new HashMap<>();
-        m.put("msg",msg);
-        m.put("url",url);
-        m.put("fileId",file1.getId());
-        return Result.ok().data(m);
+        FileVO fileVO = new FileVO(msg,url,file1.getId());
+        return Result.ok().data(fileVO);
     }
 
     @RequestMapping(value = "/download/{id}")

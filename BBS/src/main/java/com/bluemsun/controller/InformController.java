@@ -4,6 +4,7 @@ package com.bluemsun.controller;
 import com.bluemsun.entity.Inform;
 import com.bluemsun.entity.Page;
 import com.bluemsun.entity.Result;
+import com.bluemsun.entity.vo.InformVO;
 import com.bluemsun.service.InformService;
 import com.bluemsun.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,8 @@ public class InformController {
     public Result showInform(HttpServletRequest request, @PathVariable String type, @PathVariable int index){
         int userId = (int) request.getAttribute("id");
         Page<Inform> page =  informService.showInform(userId,index,type);
-        Map<String,Object> map = new HashMap<>();
-        map.put("nickName",userService.getUserById(userId).getNickName());
-        map.put("idPhoto",userService.getUserById(userId).getIdPhoto());
-        map.put("page",page);
-        return Result.ok().data(map);
+        InformVO informVO = new InformVO(userService.getUserById(userId).getNickName(),userService.getUserById(userId).getIdPhoto(),page);
+        return Result.ok().data(informVO);
     }
 
     @GetMapping(value = "/delete/{informId}")

@@ -3,6 +3,7 @@ package com.bluemsun.controller;
 
 import com.bluemsun.entity.Block;
 import com.bluemsun.entity.Result;
+import com.bluemsun.entity.vo.BlockVO;
 import com.bluemsun.service.BlockService;
 import com.bluemsun.service.IndexService;
 import com.bluemsun.service.UserService;
@@ -45,11 +46,8 @@ public class IndexController {
     public Result showBlock(HttpServletRequest request) throws JsonProcessingException {
         int userId = (int) request.getAttribute("id");
         List<Block> list = blockService.showBlock(userId);
-        map.clear();
-        map.put("blockList",list);
-        map.put("nickName",userService.getUserById(userId).getNickName());
-        map.put("idPhoto",userService.getUserById(userId).getIdPhoto());
-        return Result.ok().data(map);
+        BlockVO blockVO = new BlockVO(list,userService.getUserById(userId).getNickName(),userService.getUserById(userId).getIdPhoto());
+        return Result.ok().data(blockVO);
     }
 
     @GetMapping(value = "/search/{value}")

@@ -4,6 +4,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bluemsun.entity.Result;
 import com.bluemsun.entity.User;
+import com.bluemsun.entity.vo.UserVO;
 import com.bluemsun.service.FollowService;
 import com.bluemsun.service.UserService;
 import com.bluemsun.util.DataUtil;
@@ -44,10 +45,8 @@ public class UserController {
         int status;
         if(msg.equals("注册成功")) status = 1;
         else status = 0;
-        map.clear();
-        map.put("status",status);
-        map.put("msg",msg);
-        return Result.ok().data(map);
+        UserVO userVO = new UserVO(msg,status,null);
+        return Result.ok().data(userVO);
     }
 
     @PostMapping(value = "/login")
@@ -55,10 +54,8 @@ public class UserController {
         String msg = userService.loginUser(m.get("idNumber"),m.get("password"));
         int status = 1;
         if(msg.equals("登录失败，请检查输入是否有误") || msg.equals("账号已被封禁，无法登录") || msg.equals("输入不能为空")) status = 0;
-        map.clear();
-        map.put("status",status);
-        map.put("msg",msg);
-        return Result.ok().data(map);
+        UserVO userVO = new UserVO(msg,status,null);
+        return Result.ok().data(userVO);
     }
 
     @PostMapping (value = "/success/update")
@@ -78,10 +75,8 @@ public class UserController {
         Claim id = decodedJWT.getClaim("id");
         String url = DataUtil.URL+ "/photo/"+fileName;
         String msg = userService.addUserPhoto(url,id.asInt());
-        map.clear();
-        map.put("msg",msg);
-        map.put("url",url);
-        return Result.ok().data(map);
+        UserVO userVO = new UserVO(msg,1,url);
+        return Result.ok().data(userVO);
     }
 
     @PostMapping(value = "/success/main")
@@ -103,10 +98,8 @@ public class UserController {
         int status;
         if(!msg.equals("密码修改失败")) status = 1;
         else status = 0;
-        map.clear();
-        map.put("status",status);
-        map.put("msg",msg);
-        return Result.ok().data(map);
+        UserVO userVO = new UserVO(msg,status,null);
+        return Result.ok().data(userVO);
     }
 
     @PostMapping(value = "/nickName/update")
@@ -116,10 +109,8 @@ public class UserController {
         int status;
         if(!msg.equals("昵称修改失败")) status = 1;
         else status = 0;
-        map.clear();
-        map.put("msg",msg);
-        map.put("status",status);
-        return Result.ok().data(map);
+        UserVO userVO = new UserVO(msg,status,null);
+        return Result.ok().data(userVO);
     }
 
     @RequestMapping(value = "/telephone/update")

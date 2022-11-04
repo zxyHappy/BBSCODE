@@ -35,9 +35,7 @@ public class CommentController {
         int userId = (int)request.getAttribute("id");
         int postsId =(int) m.get("postsId");
         String body = (String) m.get("body");
-        map.clear();
-        map.put("msg",commentService.addOneComment(userId,postsId,body));
-        return Result.ok().data(map);
+        return Result.ok().data("msg",commentService.addOneComment(userId,postsId,body));
     }
 
     @RequestMapping(value = "/add/two")
@@ -87,8 +85,6 @@ public class CommentController {
         if(type.equals("one")) msg = commentService.deleteOneComment(userId,id);
         else if(type.equals("two")) msg = commentService.deleteTwoComment(userId,id);
         else msg = "url有误";
-        map.clear();
-        map.put("msg",msg);
-        return Result.ok().data(map);
+        return Result.ok().data("msg",msg);
     }
 }
