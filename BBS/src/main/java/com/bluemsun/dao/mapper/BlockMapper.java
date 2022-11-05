@@ -55,4 +55,8 @@ public interface BlockMapper {
     BlockMaster checkMaster(@Param("blockId") int blockId,@Param("userId") int userId);
 
     int deleteBlock(@Param("blockId") int blockId);
+
+    List<BlockMaster> getBlockByMaster(@Param("userId") int userId);
+
+
 }

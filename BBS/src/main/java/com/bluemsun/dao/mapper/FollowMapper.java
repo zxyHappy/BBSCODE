@@ -39,4 +39,8 @@ public interface FollowMapper {
     List<Integer> getPersonByBlock(@Param("blockId") int blockId);
 
     List<Integer> getPersonByPerson(@Param("userId") int userId);
+
+    int getFollowerNumber(@Param("userId") int userId);
+
+    int getFansNumber(@Param("userId") int userId);
 }

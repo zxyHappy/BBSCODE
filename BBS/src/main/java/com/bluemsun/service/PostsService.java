@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface PostsService {
 
-    String addPosts(Posts posts);
+    String addPosts(Posts posts,List<Integer> list);
 
     /**
      *
@@ -74,4 +74,6 @@ public interface PostsService {
     String setTopPosts(int postsId,int userId);
 
     String cancelTop(int postsId,int userId);
+
+    List<Posts> getUnConfirmPosts(int blockId,int userId);
 }

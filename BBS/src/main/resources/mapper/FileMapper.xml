@@ -5,7 +5,7 @@
 <mapper namespace="com.bluemsun.dao.mapper.FileMapper">
 
     <insert id="addFile" parameterType="com.bluemsun.entity.File" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into bbs_file (user_id,posts_id,url,file_name,real_path) values (#{userId},#{postsId},#{url},#{fileName},#{realPath})
+        insert into bbs_file (user_id,posts_id,url,file_name,real_path) values (#{userId},0,#{url},#{fileName},#{realPath})
     </insert>
 
     <select id="getFile" resultType="com.bluemsun.entity.File">
@@ -15,5 +15,13 @@
     <select id="getFileById" resultType="com.bluemsun.entity.File">
         select * from bbs_file where id = #{id}
     </select>
+
+    <delete id="deleteFile">
+        delete from bbs_file where id = #{id}
+    </delete>
+
+    <update id="setFilePosts">
+        update bbs_file set posts_id = #{postsId} where id = #{id}
+    </update>
 
 </mapper>

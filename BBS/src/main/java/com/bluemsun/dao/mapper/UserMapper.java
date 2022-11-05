@@ -77,4 +77,8 @@ public interface UserMapper {
 
     int cancelMaster(@Param("blockId") int blockId,@Param("userId") int userId);
 
+    List<User> getAllUser(@Param("startIndex") int startIndex);
+
+    int getAllUserNumber();
+
 }

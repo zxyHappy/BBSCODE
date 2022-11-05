@@ -24,7 +24,6 @@ public class Page<T> {
         }else{
             this.totalPage = totalRecord/pageSize+1;
         }
-
         this.startIndex = (currentPage-1)*pageSize;
     }
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.dao.mapper.MessageMapper">
+    <select id="getHistoryMessage" resultType="com.bluemsun.entity.Message">
+        select * from bbs_message where (user_from = #{userFrom} and user_to = #{userTo}) or (user_from = #{userTo} and user_to = #{userFrom}) order by id asc
+    </select>
+
+    <insert id="sendMessage" parameterType="com.bluemsun.entity.Message">
+        insert into bbs_message (user_from,user_to,body,date) values (#{userFrom},#{userTo},#{body},now())
+    </insert>
+
+
+</mapper>

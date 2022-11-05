@@ -85,4 +85,11 @@ public class BlockMapperImpl implements BlockMapper {
     public int deleteBlock(int blockId) {
         return blockMapper.deleteBlock(blockId);
     }
+
+    @Override
+    public List<BlockMaster> getBlockByMaster(int userId) {
+        return blockMapper.getBlockByMaster(userId);
+    }
+
+
 }

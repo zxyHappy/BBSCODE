@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -80,6 +81,13 @@ public class Result {
     public Result data(String msg){
         Map<String,Object> map = new HashMap<>();
         map.put("msg",msg);
+        this.setData(map);
+        return this;
+    }
+
+    public Result data(List list){
+        Map<String,Object> map = new HashMap();
+        map.put("list",list);
         this.setData(map);
         return this;
     }

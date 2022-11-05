@@ -51,4 +51,9 @@ public class BlockController {
         return Result.ok().data(blockService.deleteBlock(blockId,userId));
     }
 
+    @GetMapping(value = "/manage")
+    public Result getBlock(HttpServletRequest request){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(blockService.getBlockByMaster(userId));
+    }
 }

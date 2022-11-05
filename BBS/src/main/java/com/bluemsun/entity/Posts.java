@@ -16,6 +16,16 @@ public class Posts {
 
     private int likeStatus;
 
+    public Posts() {
+    }
+
+    public Posts(int blockId, int userId, String head, String body) {
+        this.blockId = blockId;
+        this.userId = userId;
+        this.head = head;
+        this.body = body;
+    }
+
     public int getlikeStatus() {
         return likeStatus;
     }

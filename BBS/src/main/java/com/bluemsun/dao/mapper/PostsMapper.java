@@ -101,4 +101,6 @@ public interface PostsMapper {
     int confirmPosts(@Param("postsId") int postsId);
 
     int rejectPosts(@Param("postsId") int postsId);
+
+    List<Posts> getUnConfirmPosts(@Param("blockId") int blockId);
 }

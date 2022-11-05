@@ -64,4 +64,11 @@
         delete from bbs_master where user_id = #{userId} and block_id = #{blockId}
     </update>
 
+    <select id="getAllUser" resultType="com.bluemsun.entity.User">
+        select * from bbs_user where id != 0 limit #{startIndex},10
+    </select>
+
+    <select id="getAllUserNumber" resultType="int">
+        select count(*) from bbs_user where id != 0
+    </select>
 </mapper>

@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.Jedis;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,5 +103,20 @@ public class BlockServiceImpl implements BlockService {
         int i = blockMapper.deleteBlock(blockId);
         if(i != 0) return "删除成功";
         return "删除失败";
+    }
+
+    @Override
+    public List<Block> getBlockByMaster(int userId) {
+        List<BlockMaster> list = blockMapper.getBlockByMaster(userId);
+        List<Block> blockList = new ArrayList<>();
+        Jedis jedis = RedisUtil.getJedis();
+        for(BlockMaster blockMaster:list){
+            Block block = blockMapper.showBlockMessage(blockMaster.getBlockId());
+            if (jedis != null){
+                block.setScanNumber(Integer.parseInt(jedis.get("block_id_"+block.getId())));
+            }
+            blockList.add(block);
+        }
+        return blockList;
     }
 }

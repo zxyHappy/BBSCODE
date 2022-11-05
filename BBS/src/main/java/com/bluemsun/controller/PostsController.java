@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,14 +25,14 @@ public class PostsController {
 
     private ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
     private PostsService postsService =(PostsService) context.getBean("PostsService");
-    private Map<String,Object> map = new HashMap<>();
     private UserService userService = (UserService) context.getBean("UserService");
 
     @RequestMapping(value = "/add")
-    public Result addPosts(@RequestBody Posts posts, HttpServletRequest request) throws JsonProcessingException {
+    public Result addPosts(@RequestBody Map<String,Object> map, HttpServletRequest request) throws JsonProcessingException {
         int id = (int)request.getAttribute("id");
-        posts.setUserId(id);
-        PostsVO postsVO  = new PostsVO(postsService.addPosts(posts),posts.getId());
+        Posts posts = new Posts((int)map.get("blockId"),id,(String) map.get("head"),(String) map.get("body"));
+        List<Integer> list = (List<Integer>)map.get("list");
+        PostsVO postsVO  = new PostsVO(postsService.addPosts(posts,list),posts.getId());
         return Result.ok().data(postsVO);
     }
 
@@ -96,5 +97,11 @@ public class PostsController {
     public Result cancelTop(@PathVariable int postsId,HttpServletRequest request){
         int userId = (int) request.getAttribute("id");
         return Result.ok().data(postsService.cancelTop(postsId,userId));
+    }
+
+    @GetMapping(value = "/unconfirm/{blockId}")
+    public Result getUnConfirmPosts(@PathVariable int blockId,HttpServletRequest request){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(postsService.getUnConfirmPosts(blockId,userId));
     }
 }

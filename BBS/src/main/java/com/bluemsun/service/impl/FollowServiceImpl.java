@@ -3,6 +3,7 @@ package com.bluemsun.service.impl;
 import com.bluemsun.dao.mapper.BlockMapper;
 import com.bluemsun.dao.mapper.FollowMapper;
 import com.bluemsun.dao.mapper.UserMapper;
+import com.bluemsun.entity.Block;
 import com.bluemsun.entity.Follow;
 import com.bluemsun.service.FollowService;
 import com.bluemsun.service.InformService;
@@ -12,7 +13,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.Jedis;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 
 public class FollowServiceImpl implements FollowService {
@@ -24,13 +27,16 @@ public class FollowServiceImpl implements FollowService {
 
 
     @Override
-    public List<Follow> getPeople(int userId,String type) {
+    public Map<String,Object> getPeople(int userId, String type) {
+        Map<String,Object> map = new HashMap();
         if(type.equals("follower")){
             List<Follow> list = followMapper.getFollower(userId);
             for(Follow follow:list){
                 follow.setUser(userMapper.getUserById(follow.getUserFollowed()));
             }
-            return list;
+            map.put("list",list);
+            map.put("number",followMapper.getFollowerNumber(userId));
+            return map;
         }else if(type.equals("fans")) {
             List<Follow> list =  followMapper.getFans(userId);
             for(Follow follow:list){
@@ -39,7 +45,9 @@ public class FollowServiceImpl implements FollowService {
                     follow.getUser().setFollowStatus(0);
                 }else follow.getUser().setFollowStatus(1);
             }
-            return list;
+            map.put("list",list);
+            map.put("number",followMapper.getFansNumber(userId));
+            return map;
         }
         else return null;
     }

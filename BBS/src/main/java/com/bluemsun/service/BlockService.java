@@ -1,6 +1,7 @@
 package com.bluemsun.service;
 
 import com.bluemsun.entity.Block;
+import com.bluemsun.entity.BlockMaster;
 import com.bluemsun.entity.Posts;
 
 import java.util.List;
@@ -37,4 +38,6 @@ public interface BlockService {
     List<Posts> showPostsPage(int blockId,int index);
 
     String deleteBlock(int blockId,int userId);
+
+    List<Block> getBlockByMaster(int userId);
 }

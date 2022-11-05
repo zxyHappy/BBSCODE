@@ -161,4 +161,10 @@ public class UserController {
         int id = (int) request.getAttribute("id");
         return Result.ok().data(userService.updateMaster(userId,blockId,id));
     }
+
+    @GetMapping(value = "/all/{index}")
+    public Result getAll(HttpServletRequest request,@PathVariable int index){
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data(userService.getAllUser(index,userId));
+    }
 }

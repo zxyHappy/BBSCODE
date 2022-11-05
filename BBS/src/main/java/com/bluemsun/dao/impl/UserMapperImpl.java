@@ -109,4 +109,14 @@ public class UserMapperImpl implements UserMapper {
     public int cancelMaster(int blockId, int userId) {
         return userMapper.cancelMaster(blockId,userId);
     }
+
+    @Override
+    public List<User> getAllUser(int startIndex) {
+        return userMapper.getAllUser(startIndex);
+    }
+
+    @Override
+    public int getAllUserNumber() {
+        return userMapper.getAllUserNumber();
+    }
 }

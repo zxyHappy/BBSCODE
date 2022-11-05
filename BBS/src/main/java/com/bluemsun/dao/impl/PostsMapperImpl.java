@@ -174,4 +174,9 @@ public class PostsMapperImpl implements PostsMapper {
         if(i != 0) return 1;
         return 0;
     }
+
+    @Override
+    public List<Posts> getUnConfirmPosts(int blockId) {
+        return postsMapper.getUnConfirmPosts(blockId);
+    }
 }

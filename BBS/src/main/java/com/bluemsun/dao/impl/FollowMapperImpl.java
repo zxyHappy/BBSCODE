@@ -76,4 +76,14 @@ public class FollowMapperImpl implements FollowMapper {
     public List<Integer> getPersonByPerson(int userId) {
         return followMapper.getPersonByPerson(userId);
     }
+
+    @Override
+    public int getFollowerNumber(int userId) {
+        return followMapper.getFollowerNumber(userId);
+    }
+
+    @Override
+    public int getFansNumber(int userId) {
+        return followMapper.getFansNumber(userId);
+    }
 }

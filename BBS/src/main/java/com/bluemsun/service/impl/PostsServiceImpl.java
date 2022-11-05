@@ -25,11 +25,14 @@ public class PostsServiceImpl implements PostsService {
 
 
     @Override
-    public String addPosts(Posts posts) {
+    public String addPosts(Posts posts,List<Integer> list) {
         blockMapper.addPostsNumber(posts.getBlockId());
         if(postsMapper.addPosts(posts) == 1) {
             informService.MasterConfirmInform(posts.getId());
             informService.confirmPostsForUser(posts.getUserId(),posts.getId());
+            for(int i:list){
+                fileMapper.setFilePosts(posts.getId(),i);
+            }
             return "发帖成功";
         }
         return "发帖失败";
@@ -222,5 +225,11 @@ public class PostsServiceImpl implements PostsService {
         int i = postsMapper.deleteTop(postsId);
         if(i != 0) return "取消成功";
         return "取消失败";
+    }
+
+    @Override
+    public List<Posts> getUnConfirmPosts(int blockId,int userId) {
+        if(blockMapper.checkMaster(blockId,userId) == null) return null;
+        return postsMapper.getUnConfirmPosts(blockId);
     }
 }

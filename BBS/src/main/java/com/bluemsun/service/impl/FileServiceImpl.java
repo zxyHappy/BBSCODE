@@ -22,4 +22,13 @@ public class FileServiceImpl implements FileService {
     public File getFile(int id) {
         return fileMapper.getFileById(id);
     }
+
+
+    @Override
+    public String deleteFile(int id,int userId) {
+        if(fileMapper.getFileById(id).getUserId() != userId) return "无操作权限";
+        int i = fileMapper.deleteFile(id);
+        if(i != 0) return "删除成功";
+        return "删除失败";
+    }
 }

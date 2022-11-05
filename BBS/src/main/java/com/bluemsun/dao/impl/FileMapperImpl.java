@@ -33,4 +33,14 @@ public class FileMapperImpl implements FileMapper {
 //        FileMapper fileMapper = sqlSession.getMapper(FileMapper.class);
         return fileMapper.getFileById(id);
     }
+
+    @Override
+    public int deleteFile(int id) {
+        return fileMapper.deleteFile(id);
+    }
+
+    @Override
+    public int setFilePosts(int postsId, int id) {
+        return fileMapper.setFilePosts(postsId,id);
+    }
 }

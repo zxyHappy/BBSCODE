@@ -1,5 +1,10 @@
 package com.bluemsun.entity;
 
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
+
 public class BlockMaster {
 
     private int id;
@@ -38,4 +43,6 @@ public class BlockMaster {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
+
+
 }

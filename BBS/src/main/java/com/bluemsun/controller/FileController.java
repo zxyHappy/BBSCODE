@@ -29,8 +29,9 @@ import java.util.UUID;
 @RequestMapping(value = "/file")
 public class FileController {
 
+
     @RequestMapping(value = "/add")
-    public Result addFile(HttpServletRequest request, @RequestParam("postsId") int postsId,@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+    public Result addFile(HttpServletRequest request,@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         com.bluemsun.entity.File file1 =(com.bluemsun.entity.File) context.getBean("File");
         String fileName = file.getOriginalFilename();
@@ -53,7 +54,6 @@ public class FileController {
         String url = DataUtil.URL+ "/showfile/"+fileName;
         file1.setUrl(url);
         file1.setUserId(userId.asInt());
-        file1.setPostsId(postsId);
         String msg = fileService.addFile(file1);
         FileVO fileVO = new FileVO(msg,url,file1.getId());
         return Result.ok().data(fileVO);
@@ -74,5 +74,13 @@ public class FileController {
         ResponseEntity<byte[]> responseEntity  = new ResponseEntity<>(bytes,headers,statusCode);
         is.close();
         return responseEntity;
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public Result deleteFile(@PathVariable int id,HttpServletRequest request){
+        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        FileService fileService =(FileService) context.getBean("FileService");
+        int userId = (int) request.getAttribute("id");
+        return Result.ok().data("msg",fileService.deleteFile(id,userId));
     }
 }

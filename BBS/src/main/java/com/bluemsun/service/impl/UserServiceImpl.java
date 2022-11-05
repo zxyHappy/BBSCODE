@@ -10,11 +10,13 @@ import com.bluemsun.entity.User;
 import com.bluemsun.service.InformService;
 import com.bluemsun.service.UserService;
 import com.bluemsun.util.JWTUtil;
+import com.bluemsun.util.MD5Util;
 import com.bluemsun.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserServiceImpl implements UserService {
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         user.setUserName(uid);
+        user.setPassword(MD5Util.md5(user.getPassword()));
         int i = userMapper.addUser(user);
         if(i == 1) return "注册成功";
         return "注册失败";
@@ -55,7 +58,7 @@ public class UserServiceImpl implements UserService {
         User user2 = userMapper.getUserByTelephone(idNumber);
         Jedis jedis = RedisUtil.getJedis();
         if(user1!=null){
-            if(user1.getPassword().equals(password)){
+            if(MD5Util.md5(user1.getPassword()).equals(password)){
                 if(user1.getBanStatus()==1) msg = "账号已被封禁，无法登录";
                 else {
                     msg = JWTUtil.getToken(user1);
@@ -67,7 +70,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         if(user2!=null){
-            if(user2.getPassword().equals(password)){
+            if(MD5Util.md5(user2.getPassword()).equals(password)){
                 if(user2.getBanStatus()==1) msg = "账号已被封禁，无法登录";
                 else {
                     msg = JWTUtil.getToken(user2);
@@ -195,5 +198,14 @@ public class UserServiceImpl implements UserService {
             if(i != 0) return "取消版主成功";
             return "取消版主失败";
         }
+    }
+
+    @Override
+    public Page<User> getAllUser(int index, int userId) {
+        if(userId != 1) return null;
+        Page<User> page = new Page<>();
+        page.setPage(index,10,userMapper.getAllUserNumber());
+        page.setList(userMapper.getAllUser(page.getStartIndex()));
+        return page;
     }
 }

@@ -5,6 +5,7 @@ import com.bluemsun.entity.Posts;
 import com.bluemsun.entity.User;
 import org.springframework.context.ApplicationContext;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -75,4 +76,6 @@ public interface UserService {
     String updateUserStatus(int userId,int id);
 
     String updateMaster(int userId,int blockId,int id);
+
+    Page<User> getAllUser(int index,int userId);
 }

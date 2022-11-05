@@ -14,7 +14,7 @@ public interface FollowService {
      * @param userId 用户id
      * @return
      */
-     List<Follow> getPeople(int userId,String type);
+     Map<String,Object> getPeople(int userId,String type);
 
     /**
      * 更新关注，已关注就取关，未关注就关注

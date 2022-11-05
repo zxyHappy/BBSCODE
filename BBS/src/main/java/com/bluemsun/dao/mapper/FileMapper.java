@@ -25,4 +25,8 @@ public interface FileMapper {
      * @return
      */
     File getFileById(@Param("id") int id);
+
+    int deleteFile(@Param("id") int id);
+
+    int setFilePosts(@Param("postsId") int postsId,@Param("id") int id);
 }

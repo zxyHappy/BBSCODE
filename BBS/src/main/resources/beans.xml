@@ -30,6 +30,7 @@
                 <value>classpath:mapper/LikeMapper.xml</value>
                 <value>classpath:mapper/FollowMapper.xml</value>
                 <value>classpath:mapper/InformMapper.xml</value>
+                <value>classpath:mapper/MessageMapper.xml</value>
             </array>
         </property>
     </bean>
@@ -76,6 +77,10 @@
         <property name="sqlSession" ref="sqlSession"/>
     </bean>
 
+    <bean id="MessageMapper" class="com.bluemsun.dao.impl.MessageMapperImpl">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+
     <bean id="PostsService" class="com.bluemsun.service.impl.PostsServiceImpl"/>
 
     <bean id="PostsMapper" class="com.bluemsun.dao.impl.PostsMapperImpl">
@@ -99,6 +104,7 @@
 
     <bean id="InformService" class="com.bluemsun.service.impl.InformServiceImpl"/>
 
+    <bean id="MessageService" class="com.bluemsun.service.impl.MessageServiceImpl"/>
 <!--    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
 <!--        <property name="dataSource" ref="dataSource" />-->
 <!--    </bean>-->

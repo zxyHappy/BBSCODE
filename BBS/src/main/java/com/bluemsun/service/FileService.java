@@ -13,4 +13,6 @@ public interface FileService {
      * @return
      */
     File getFile(int id);
+
+    String deleteFile(int id,int userId);
 }

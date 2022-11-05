@@ -8,7 +8,16 @@
         select * from bbs_follow where user_id = #{userId} and status = 1
     </select>
 
+
+    <select id="getFollowerNumber" resultType="int">
+        select count(*) from bbs_follow where user_id = #{userId} and status = 1
+    </select>
+
     <select id="getFans" resultType="com.bluemsun.entity.Follow">
+        select * from bbs_follow where user_followed = #{userId} and status = 1
+    </select>
+
+    <select id="getFansNumber" resultType="int">
         select * from bbs_follow where user_followed = #{userId} and status = 1
     </select>
 

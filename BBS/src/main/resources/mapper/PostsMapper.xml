@@ -110,5 +110,8 @@
         update bbs_posts set posts_status = 0 where id = #{postsId}
     </update>
 
+    <select id="getUnConfirmPosts" resultType="com.bluemsun.entity.Posts">
+        select * from bbs_posts where posts_status = 1 and block_id = #{blockId}
+    </select>
 
 </mapper>
