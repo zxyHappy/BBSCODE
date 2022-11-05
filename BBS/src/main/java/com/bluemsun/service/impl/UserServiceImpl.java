@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         User user2 = userMapper.getUserByTelephone(idNumber);
         Jedis jedis = RedisUtil.getJedis();
         if(user1!=null){
-            if(MD5Util.md5(user1.getPassword()).equals(password)){
+            if(MD5Util.md5(password).equals(user1.getPassword())){
                 if(user1.getBanStatus()==1) msg = "账号已被封禁，无法登录";
                 else {
                     msg = JWTUtil.getToken(user1);
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         if(user2!=null){
-            if(MD5Util.md5(user2.getPassword()).equals(password)){
+            if(MD5Util.md5(password).equals(user2.getPassword())){
                 if(user2.getBanStatus()==1) msg = "账号已被封禁，无法登录";
                 else {
                     msg = JWTUtil.getToken(user2);

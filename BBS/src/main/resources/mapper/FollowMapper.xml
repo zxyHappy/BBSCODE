@@ -18,7 +18,7 @@
     </select>
 
     <select id="getFansNumber" resultType="int">
-        select * from bbs_follow where user_followed = #{userId} and status = 1
+        select count(*) from bbs_follow where user_followed = #{userId} and status = 1
     </select>
 
     <insert id="addFollowPeople" parameterType="com.bluemsun.entity.Follow">
