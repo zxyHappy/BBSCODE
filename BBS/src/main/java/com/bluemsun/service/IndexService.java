@@ -12,4 +12,5 @@ public interface IndexService {
 
     Map<String,Object> indexSearch(String value,int userId);
 
+
 }

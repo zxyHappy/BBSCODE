@@ -24,7 +24,7 @@ public interface UserService {
      * @param password
      * @return 返回要么是登录不成功，要么是token
      */
-    String loginUser(String idNumber, String password);
+    Map<String,Object> loginUser(String idNumber, String password);
 
     /**
      *

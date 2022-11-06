@@ -50,11 +50,12 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public Result login(@RequestBody Map<String,String> m) throws IOException {
-        String msg = userService.loginUser(m.get("idNumber"),m.get("password"));
+    public Result login(@RequestBody Map<String,String> m) {
+        Map<String,Object> map =  userService.loginUser(m.get("idNumber"),m.get("password"));
+        String msg =(String) map.get("msg");
         int status = 1;
         if(msg.equals("登录失败，请检查输入是否有误") || msg.equals("账号已被封禁，无法登录") || msg.equals("输入不能为空")) status = 0;
-        UserVO userVO = new UserVO(msg,status,null);
+        UserVO userVO = new UserVO(msg,status,(int)map.get("id"));
         return Result.ok().data(userVO);
     }
 

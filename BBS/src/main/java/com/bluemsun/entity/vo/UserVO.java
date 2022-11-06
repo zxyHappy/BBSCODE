@@ -4,6 +4,7 @@ public class UserVO {
     private String msg;
     private int status;
     private String url;
+    private int id;
 
     public UserVO() {
     }
@@ -12,6 +13,21 @@ public class UserVO {
         this.msg = msg;
         this.status = status;
         this.url = url;
+
+    }
+
+    public UserVO(String msg, int status, int id) {
+        this.msg = msg;
+        this.status = status;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMsg() {

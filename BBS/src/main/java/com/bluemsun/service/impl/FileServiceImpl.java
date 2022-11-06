@@ -14,7 +14,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public String addFile(File file) {
         int i = fileMapper.addFile(file);
-        if(i != 0) return "文件上传成功";
+        if(i != 0) return "文件上传成功，文件名："+fileMapper.getFileById(file.getId()).getFileName();
         return "文件上传失败";
     }
 

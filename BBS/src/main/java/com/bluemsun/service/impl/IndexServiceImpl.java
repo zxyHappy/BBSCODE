@@ -61,6 +61,7 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public Map<String, Object> indexSearch(String value,int userId) {
+        if(value == null || "".equals(value)) return null;
         List<User> userList = userMapper.searchUser(value);
         List<Block> blockList = blockMapper.searchBlock(value);
         List<Posts> postsList = postsMapper.searchPosts(value);

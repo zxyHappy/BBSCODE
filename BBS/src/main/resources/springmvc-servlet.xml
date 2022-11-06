@@ -76,12 +76,12 @@
         <aop:advisor advice-ref="afterLog" pointcut-ref="pointCut"/>
     </aop:config>
 
-<!--    <aop:config>-->
-<!--        <aop:aspect ref="exceptionLog">-->
-<!--            <aop:pointcut id="pointCut" expression="execution(* com.bluemsun.controller.*.*(..))"/>-->
-<!--            <aop:after-throwing method="doRecoveryActions" pointcut-ref="pointCut" throwing="ex"/>-->
-<!--        </aop:aspect>-->
-<!--    </aop:config>-->
+    <aop:config>
+        <aop:aspect ref="exceptionLog">
+            <aop:pointcut id="pointCut" expression="execution(* com.bluemsun.controller.*.*(..))"/>
+            <aop:after-throwing method="doRecoveryActions" pointcut-ref="pointCut" throwing="ex"/>
+        </aop:aspect>
+    </aop:config>
 
     <!-- 1.配置事务管理器 -->
     <bean id="transactionManager"

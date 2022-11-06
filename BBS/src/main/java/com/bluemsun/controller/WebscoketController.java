@@ -1,10 +1,3 @@
-package com.bluemsun.controller;
-
-public class WebscoketController {
-}
-
-
-
 //package com.bluemsun.controller;
 //
 //import java.io.IOException;

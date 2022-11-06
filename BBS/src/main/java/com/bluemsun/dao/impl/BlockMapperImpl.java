@@ -91,5 +91,8 @@ public class BlockMapperImpl implements BlockMapper {
         return blockMapper.getBlockByMaster(userId);
     }
 
-
+    @Override
+    public Block getBlockByName(String blockName) {
+        return blockMapper.getBlockByName(blockName);
+    }
 }

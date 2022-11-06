@@ -58,5 +58,5 @@ public interface BlockMapper {
 
     List<BlockMaster> getBlockByMaster(@Param("userId") int userId);
 
-
+    Block getBlockByName(@Param("blockName") String blockName);
 }

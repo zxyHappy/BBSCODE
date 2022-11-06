@@ -32,6 +32,7 @@ public class BlockServiceImpl implements BlockService {
     @Override
     public String addBlock(String blockName,String describe,int userId) {
         if(userId != 1) return "无操作权限";
+        if(blockMapper.getBlockByName(blockName) != null) return "该板块已存在";
         int i = blockMapper.addBlock(blockName,describe);
         if(i != 0) return "添加成功";
         return "添加失败";

@@ -49,11 +49,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginUser(String idNumber, String password) {
-        if(idNumber==null || "".equals(idNumber) || password == null || "".equals(password)){
-            return "输入不能为空";
-        }
+    public Map<String,Object> loginUser(String idNumber, String password) {
+        Map<String,Object> map = new HashMap<>();
         String msg = "登录失败，请检查输入是否有误";
+        if(idNumber==null || "".equals(idNumber) || password == null || "".equals(password)){
+            msg =  "输入不能为空";
+            map.put("msg",msg);
+            map.put("id",0);
+            return map;
+        }
         User user1 = userMapper.getUserByName(idNumber);
         User user2 = userMapper.getUserByTelephone(idNumber);
         Jedis jedis = RedisUtil.getJedis();
@@ -68,6 +72,9 @@ public class UserServiceImpl implements UserService {
                     }
                 }
             }
+            map.put("msg",msg);
+            map.put("id",user1.getId());
+            return map;
         }
         if(user2!=null){
             if(MD5Util.md5(password).equals(user2.getPassword())){
@@ -80,9 +87,14 @@ public class UserServiceImpl implements UserService {
                     }
                 }
             }
+            map.put("msg",msg);
+            map.put("id",user2.getId());
+            return map;
         }
         RedisUtil.closeJedis(jedis);
-        return msg;
+        map.put("msg",msg);
+        map.put("id",0);
+        return map;
     }
 
     @Override
@@ -161,7 +173,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.getUserById(id);
         if(followMapper.checkFollowPeople(follow) == null) user.setFollowStatus(0);
         else user.setFollowStatus(1);
-        Page<Posts> postsPage = getPostsByUser(id,index);
+        Page<Posts> postsPage = getPostsByUser(userId,index);
         map.put("user",user);
         map.put("postsNumber",postsPage.getTotalRecord());
         map.put("totalPage",postsPage.getTotalPage());

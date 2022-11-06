@@ -8,7 +8,7 @@
     </select>
 
     <select id="getBlocks" resultType="com.bluemsun.entity.Block">
-        select * from bbs_block order by scan_number desc limit 0,5
+        select * from bbs_block where id != 0 order by scan_number desc limit 0,5
     </select>
 
     <insert id="addBlock" parameterType="com.bluemsun.entity.Block">
@@ -53,5 +53,9 @@
 
     <select id="getBlockByMaster" resultType="com.bluemsun.entity.BlockMaster">
         select * from bbs_master where user_id = #{userId}
+    </select>
+
+    <select id="getBlockByName" resultType="com.bluemsun.entity.Block">
+        select * from bbs_block where id != 0 and block_name = #{blockName}
     </select>
 </mapper>
